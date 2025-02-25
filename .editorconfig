@@ -1,0 +1,18 @@
+# Define padrões globais
+root = true
+
+[*]
+indent_style = space      # Usa espaços para indentação (ou "tab" para tabs)
+indent_size = 2           # Define o tamanho da indentação (2 ou 4 espaços)
+end_of_line = lf          # Garante que a quebra de linha seja LF (Linux/macOS)
+charset = utf-8           # Define a codificação do arquivo como UTF-8
+trim_trailing_whitespace = true  # Remove espaços em branco no final das linhas
+insert_final_newline = true      # Garante uma linha vazia no final do arquivo
+
+# Configuração específica para arquivos JSON e YAML
+[*.{json,yml,yaml}]
+indent_size = 2
+
+# Configuração específica para arquivos Markdown
+[*.md]
+trim_trailing_whitespace = false  # Mantém os espaços no fim das linhas (útil para quebras no Markdown)
