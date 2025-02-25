@@ -15,9 +15,8 @@ export default [
             prettier: prettier,
         },
         rules: {
-            "prettier/prettier": ["error"],
-            "@typescript-eslint/no-unused-vars": ["warn"],
-            "react/react-in-jsx-scope": "off",
+            "prettier/prettier": ["error", { "endOfLine": "lf" }],
+            "@typescript-eslint/no-unused-vars": ["warn"]
         },
     },
 ];
