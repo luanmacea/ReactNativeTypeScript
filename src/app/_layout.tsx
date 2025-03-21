@@ -1,10 +1,17 @@
-import { Tabs } from 'expo-router'
+import { ThemeProvider } from '@rneui/themed'
+import { Stack } from 'expo-router'
+import { selectThemeState } from '~/redux/features/theme/themeSelectors'
+import { useAppSelector } from '~/redux/hook'
+import { Providers } from '~/redux/provider'
 
-export default function Layout() {
+export default function RootLayout() {
+  const theme = useAppSelector(selectThemeState)
+
   return (
-    <Tabs>
-      <Tabs.Screen name="index" options={{ title: 'Home' }} />
-      <Tabs.Screen name="(tabs)" options={{ title: 'Dashboard' }} />
-    </Tabs>
+    <ThemeProvider theme={theme}>
+      <Providers>
+        <Stack />
+      </Providers>
+    </ThemeProvider>
   )
 }
