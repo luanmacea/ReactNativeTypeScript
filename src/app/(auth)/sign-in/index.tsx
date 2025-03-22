@@ -1,36 +1,35 @@
-
-import { useRouter } from 'expo-router';
-import { useForm, FormProvider } from 'react-hook-form';
-import { View } from 'react-native';
-import { TextInput } from '~/components/TextInput';
-import { Button } from '~/components/Button'
+import { useRouter } from 'expo-router'
+import { FormProvider, useForm } from 'react-hook-form'
+import { View } from 'react-native'
+import Button from '~/components/Button'
+import { TextInput } from '~/components/TextInput'
 
 export default function SignInPage() {
-  const router = useRouter();
+  const router = useRouter()
 
-  const methods = useForm();
+  const methods = useForm()
 
   const onSubmit = (data: any) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   return (
     <FormProvider {...methods}>
       <View>
         <TextInput
           name="email"
-          textLabel="Email"
+          label="Email"
           placeholder="Digite seu email"
-          iconLeft="email"
+          // iconLeft="email"
         />
         <TextInput
           name="password"
-          textLabel="Password"
+          label="Password"
           placeholder="Digite sua senha"
-          password
+          // password
         />
         <Button title="Submit" onPress={methods.handleSubmit(onSubmit)} />
       </View>
     </FormProvider>
-  );
+  )
 }
