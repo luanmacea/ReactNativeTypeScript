@@ -1,11 +1,11 @@
-import { Link } from 'expo-router'
-import { View, Text } from 'react-native'
+import { Redirect } from 'expo-router'
+// import { Text, View } from 'react-native'
 
-export default function Home() {
-  return (
-    <View>
-      <Text>Página Inicial</Text>
-      <Link href={'/(tabs)/dashboard'}>dashboard</Link>
-    </View>
-  )
+export default function Index() {
+  return <Redirect href="/(auth)/sign-in" />
+  // return (
+  //   <View>
+  //     <Text>Teste</Text>
+  //   </View>
+  // )
 }
