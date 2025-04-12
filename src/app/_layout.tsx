@@ -9,7 +9,6 @@ export default function RootLayout() {
   )
 }
 
-// esse componente agora tem acesso ao Redux
 import { ThemeProvider } from '@rneui/themed'
 import { selectThemeState } from '~/redux/features/theme/themeSelectors'
 import { useAppSelector } from '~/redux/hook'
@@ -36,6 +35,9 @@ function LayoutContent() {
             ),
             headerShown: options.headerShown ?? true,
             headerBackVisible: options.headerBackVisible ?? true,
+            headerStyle: {
+              backgroundColor: theme.darkColors?.black,
+            },
           }
         }}
       />

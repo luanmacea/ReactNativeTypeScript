@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import { View, TextInput as TextInputReactNative, Text, TextInputProps } from 'react-native';
-import { useFormContext, useController } from 'react-hook-form';
+import React, { useState } from 'react'
+import { Text, View } from 'react-native'
+import { TextInput as PaperTextInput } from 'react-native-paper'
+import { useFormContext, useController } from 'react-hook-form'
+import { useAppSelector } from '~/redux/hook'
+import { selectThemeState } from '~/redux/features/theme/themeSelectors'
 
-interface FormTextInputProps extends TextInputProps {
+interface FormTextInputProps {
   name: string
   label?: string
-  iconLeft?: string; // nome do ícone da esquerda
+  iconLeft?: string
   password?: boolean
+  placeholder?: string
 }
 
 export const TextInput: React.FC<FormTextInputProps> = ({
@@ -14,10 +18,11 @@ export const TextInput: React.FC<FormTextInputProps> = ({
   label,
   iconLeft,
   password = false,
-  ...textInputProps
+  placeholder,
 }) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { control } = useFormContext(); // <- usa o contexto provido pelo FormProvider
+  const theme = useAppSelector(selectThemeState)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const { control } = useFormContext()
 
   const {
     field: { onChange, onBlur, value },
@@ -26,30 +31,57 @@ export const TextInput: React.FC<FormTextInputProps> = ({
     name,
     control,
     defaultValue: '',
-  });
+  })
 
   const togglePasswordVisibility = () => {
-    setIsPasswordVisible((prev) => !prev);
-  };
+    setIsPasswordVisible((prev) => !prev)
+  }
 
   return (
     <View style={{ marginBottom: 16 }}>
-      {label && <Text style={{ marginBottom: 4 }}>{label}</Text>}
-      <TextInputReactNative
+      <PaperTextInput
+        mode="outlined"
+        label={label}
+        placeholder={placeholder}
         value={value}
         onChangeText={onChange}
         onBlur={onBlur}
-        style={{
-          borderColor: error ? 'red' : '#ccc',
-          borderWidth: 1,
-          borderRadius: 8,
-          padding: 12,
+        secureTextEntry={password && !isPasswordVisible}
+        autoCapitalize="none"
+        autoCorrect={false}
+        error={!!error}
+        left={iconLeft ? <PaperTextInput.Icon icon={iconLeft} /> : undefined}
+        right={
+          password ? (
+            <PaperTextInput.Icon
+              icon={isPasswordVisible ? 'eye-off' : 'eye'}
+              onPress={togglePasswordVisibility}
+            />
+          ) : undefined
+        }
+        theme={{
+          colors: {
+            primary: theme.darkColors?.primary || '#FF9F1C',
+            text: theme.darkColors?.white || '#FFFFFF',
+            placeholder: '#AAAAAA',
+            background: theme.darkColors?.background || '#2A2B2A',
+            error: theme.darkColors?.error || '#F44336',
+          },
         }}
-        {...textInputProps}
+        style={{
+          backgroundColor: theme.darkColors?.background,
+          color: theme.darkColors?.white,
+        }}
       />
       {error && (
-        <Text style={{ color: 'red', marginTop: 4 }}>{error.message}</Text>
+        <View style={{ marginTop: 4 }}>
+          <Text
+            style={{ color: theme.darkColors?.error || 'red', fontSize: 12 }}
+          >
+            {error.message}
+          </Text>
+        </View>
       )}
     </View>
-  );
-};
+  )
+}

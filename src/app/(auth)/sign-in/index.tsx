@@ -21,14 +21,14 @@ export default function SignInPage() {
         <View>
           <TextInput
             name="email"
-            label="Email"
-            placeholder="Digite seu email"
+            label="Digite seu email"
+            placeholder="Email"
             // iconLeft="email"
           />
           <TextInput
             name="password"
-            label="Password"
-            placeholder="Digite sua senha"
+            label="Digite sua senha"
+            placeholder="Senha"
             // password
           />
           <Button title="Submit" onPress={methods.handleSubmit(onSubmit)} />
