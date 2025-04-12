@@ -12,6 +12,7 @@ export default function SignInPage() {
 
   const onSubmit = (data: any) => {
     console.log(data)
+    router.replace('home')
   }
 
   return (
