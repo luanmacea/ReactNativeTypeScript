@@ -6,18 +6,18 @@ export const navigationScreensOptions: Record<string, ScreenOption> = {
     title: 'Login',
     headerShown: true,
     headerBackVisible: false,
-    icon: <Feather name="log-in" size={24} color="black" />,
+    icon: <Feather name="log-in" size={24} color="grey" />,
   },
   'sign-up/index': {
     title: 'Criar Conta',
     headerShown: true,
     headerBackVisible: true,
-    icon: <Feather name="user-plus" size={24} color="black" />,
+    icon: <Feather name="user-plus" size={24} color="grey" />,
   },
   'home/index': {
     title: 'Home',
     headerShown: true,
     headerBackVisible: false,
-    icon: <Feather name="home" size={24} color="black" />,
+    icon: <Feather name="home" size={24} color="grey" />,
   },
 }

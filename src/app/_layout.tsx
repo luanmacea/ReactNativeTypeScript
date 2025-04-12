@@ -30,13 +30,15 @@ function LayoutContent() {
             headerTitle: () => (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {options.icon}
-                <Text style={{ marginLeft: 8 }}>{options.title}</Text>
+                <Text style={{ marginLeft: 8, color: 'white' }}>
+                  {options.title}
+                </Text>
               </View>
             ),
             headerShown: options.headerShown ?? true,
             headerBackVisible: options.headerBackVisible ?? true,
             headerStyle: {
-              backgroundColor: theme.darkColors?.black,
+              backgroundColor: theme.darkColors?.grey0,
             },
           }
         }}

@@ -49,6 +49,9 @@ export const TextInput: React.FC<FormTextInputProps> = ({
         secureTextEntry={password && !isPasswordVisible}
         autoCapitalize="none"
         autoCorrect={false}
+        textColor={theme.darkColors?.white} // <- força a cor do texto digitado
+        placeholderTextColor={theme.darkColors?.white}
+        outlineColor="#B6B6B6FF"
         error={!!error}
         left={iconLeft ? <PaperTextInput.Icon icon={iconLeft} /> : undefined}
         right={
@@ -62,9 +65,6 @@ export const TextInput: React.FC<FormTextInputProps> = ({
         theme={{
           colors: {
             primary: theme.darkColors?.primary || '#FF9F1C',
-            text: theme.darkColors?.white || '#FFFFFF',
-            placeholder: '#AAAAAA',
-            background: theme.darkColors?.background || '#2A2B2A',
             error: theme.darkColors?.error || '#F44336',
           },
         }}
