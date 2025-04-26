@@ -12,5 +12,12 @@ export const defaultTheme = createTheme({
     error: '#F44336',
     warning: '#FFC107',
   },
+  components: {
+    Text: {
+      style: {
+        color: '#F5F5F5',
+      },
+    },
+  },
   mode: 'dark',
 })

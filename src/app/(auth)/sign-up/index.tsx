@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router'
-import { Button, Text } from 'react-native'
+import Button from '~/components/Button'
 import Container from '~/components/Container'
+import Text from '~/components/Text'
 
 export default function SignUpPage() {
   const router = useRouter()

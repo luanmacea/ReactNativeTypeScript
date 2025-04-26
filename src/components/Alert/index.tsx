@@ -1,4 +1,5 @@
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import AntDesign from '@expo/vector-icons/AntDesign'
 
 interface AlertProps {
   title: string
@@ -24,8 +25,7 @@ export default function Alert({ title, message, open, onClose }: AlertProps) {
           <View style={styles.header}>
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={onClose}>
-              {/* <XCircle size={24} /> */}
-              <Text>X</Text>
+              <AntDesign name="close" size={24} color="black" />
             </TouchableOpacity>
           </View>
           <Text style={styles.message}>{message}</Text>

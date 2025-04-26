@@ -20,7 +20,7 @@ export default function Button({ title, onPress, style }: ButtonProps) {
       alignItems: 'center',
     },
     text: {
-      color: 'white',
+      color: theme.darkColors?.grey0,
       fontSize: 16,
       fontWeight: 'bold',
     },
