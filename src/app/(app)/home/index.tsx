@@ -1,5 +1,5 @@
-import { Text } from 'react-native'
 import Container from '~/components/Container'
+import Text from '~/components/Text'
 
 export default function HomePage() {
   return (

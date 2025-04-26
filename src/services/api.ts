@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://api.rhdigital.com.br',
+  baseURL: 'http://localhost:8081',
 })
 
 // api.interceptors.request.use(

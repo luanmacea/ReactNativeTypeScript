@@ -12,5 +12,5 @@ export const defaultTheme = createTheme({
     error: '#F44336',
     warning: '#FFC107',
   },
-  mode: 'light',
+  mode: 'dark',
 })
