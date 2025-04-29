@@ -14,7 +14,8 @@ import { selectThemeState } from '~/redux/features/theme/themeSelectors'
 import { useAppSelector } from '~/redux/hook'
 import { AuthRouteParams } from '~/types/types'
 import { navigationScreensOptions } from '~/mocks/navigation'
-import { Text, View } from 'react-native'
+import {  View } from 'react-native'
+import Text from '~/components/Text'
 
 function LayoutContent() {
   const theme = useAppSelector(selectThemeState)
@@ -30,7 +31,7 @@ function LayoutContent() {
             headerTitle: () => (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {options.icon}
-                <Text style={{ marginLeft: 8, color: 'white' }}>
+                <Text style={{ marginLeft: 8 }}>
                   {options.title}
                 </Text>
               </View>

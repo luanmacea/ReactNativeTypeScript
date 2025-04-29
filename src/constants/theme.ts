@@ -4,7 +4,7 @@ export const defaultTheme = createTheme({
   lightColors: {
     primary: '#007BFF',
     secondary: '#6C757D',
-    background: '#FFFFFF',
+    background: '#D6D6D6FF',
     grey0: '#F8F9FA',
     white: '#FFFFFF',
     black: '#000000',
@@ -22,13 +22,6 @@ export const defaultTheme = createTheme({
     success: '#4CAF50',
     error: '#F44336',
     warning: '#FFC107',
-  },
-  components: {
-    Text: {
-      style: {
-        color: '#F5F5F5',
-      },
-    },
   },
   mode: 'dark',
 })
