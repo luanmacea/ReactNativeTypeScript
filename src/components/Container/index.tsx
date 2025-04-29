@@ -13,7 +13,7 @@ export default function Container({ children, style }: IContainerProps) {
     container: {
       flex: 1,
       padding: 20,
-      backgroundColor: theme.darkColors?.background,
+      backgroundColor: theme.colors?.background,
       ...style,
     },
   })

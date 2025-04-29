@@ -49,8 +49,8 @@ export const TextInput: React.FC<FormTextInputProps> = ({
         secureTextEntry={password && !isPasswordVisible}
         autoCapitalize="none"
         autoCorrect={false}
-        textColor={theme.darkColors?.white}
-        placeholderTextColor={theme.darkColors?.white}
+        textColor={theme.colors?.white}
+        placeholderTextColor={theme.colors?.white}
         outlineColor="#B6B6B6FF"
         error={!!error}
         left={iconLeft ? <PaperTextInput.Icon icon={iconLeft} /> : undefined}
@@ -64,19 +64,19 @@ export const TextInput: React.FC<FormTextInputProps> = ({
         }
         theme={{
           colors: {
-            primary: theme.darkColors?.primary || '#FF9F1C',
-            error: theme.darkColors?.error || '#F44336',
+            primary: theme.colors?.primary || '#FF9F1C',
+            error: theme.colors?.error || '#F44336',
           },
         }}
         style={{
-          backgroundColor: theme.darkColors?.background,
-          color: theme.darkColors?.white,
+          backgroundColor: theme.colors?.background,
+          color: theme.colors?.white,
         }}
       />
       {error && (
         <View style={{ marginTop: 4 }}>
           <Text
-            style={{ color: theme.darkColors?.error || 'red', fontSize: 12 }}
+            style={{ color: theme.colors?.error || 'red', fontSize: 12 }}
           >
             {error.message}
           </Text>

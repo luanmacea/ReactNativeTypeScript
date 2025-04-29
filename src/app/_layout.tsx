@@ -38,7 +38,7 @@ function LayoutContent() {
             headerShown: options.headerShown ?? true,
             headerBackVisible: options.headerBackVisible ?? true,
             headerStyle: {
-              backgroundColor: theme.darkColors?.grey0,
+              backgroundColor: theme.colors?.grey0,
             },
           }
         }}
