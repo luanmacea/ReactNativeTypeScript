@@ -7,7 +7,7 @@ export const signInApi = (data: ISignInProps) =>
     cpf: data.cpf,
     senha: data.password,
     rememberMe: true,
-    isMobile: true
+    isMobile: true,
   })
 
 export const signOutApi = () => api.post('/auth/logout')

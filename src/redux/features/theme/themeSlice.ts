@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { defaultTheme } from '~/constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -9,7 +9,10 @@ interface ThemeState {
 
 const initialState: ThemeState = {
   mode: defaultTheme.mode as 'light' | 'dark',
-  colors: defaultTheme.mode === 'dark' ? defaultTheme.darkColors : defaultTheme.lightColors,
+  colors:
+    defaultTheme.mode === 'dark'
+      ? defaultTheme.darkColors
+      : defaultTheme.lightColors,
 }
 
 export const THEME_KEY = 'APP_THEME_MODE'
@@ -30,7 +33,10 @@ const themeSlice = createSlice({
     },
     setThemeMode: (state, action: PayloadAction<'light' | 'dark'>) => {
       state.mode = action.payload
-      state.colors = action.payload === 'dark' ? defaultTheme.darkColors : defaultTheme.lightColors
+      state.colors =
+        action.payload === 'dark'
+          ? defaultTheme.darkColors
+          : defaultTheme.lightColors
       AsyncStorage.setItem(THEME_KEY, state.mode)
     },
   },

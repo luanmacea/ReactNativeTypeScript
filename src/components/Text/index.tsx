@@ -8,10 +8,9 @@ export default function Text(props: TextProps) {
     <RNEText
       {...props}
       style={[
-        { color: theme.mode === 'dark' ? theme.colors?.white : ''  },
+        { color: theme.mode === 'dark' ? theme.colors?.white : '' },
         props.style,
       ]}
     />
   )
 }
-

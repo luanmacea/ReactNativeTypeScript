@@ -1,4 +1,4 @@
-package com.anonymous.ReactNativeTypeScript
+package com.anonymous.reactnativetypescript
 
 import android.app.Application
 import android.content.res.Configuration

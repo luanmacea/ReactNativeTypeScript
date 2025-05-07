@@ -1,10 +1,10 @@
 // import { setGlobalError } from '~/redux/features/global/globalSlice'
-import { store } from '~/redux/store'
+// import { store } from '~/redux/store'
 // import Cookies from 'js-cookie'
 
 // import { COOKIES } from '~/constants/environment-variables'
 
-import api from './api'
+// import api from './api'
 
 // api.interceptors.response.use(
 //   response => response,
