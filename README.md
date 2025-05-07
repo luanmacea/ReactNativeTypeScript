@@ -1,21 +1,145 @@
-# reactnativetypescript
+# React Native TypeScript Template
 
-Isso é um repositorio template de um projeto React Native para ser usado sempre que iniciar um novo projeto
+Este é um repositório **template base para projetos React Native com Expo**, ideal para iniciar rapidamente novos apps com uma estrutura moderna e organizada.
 
-Baixe o yarn com "npm install -g yarn"
+Inclui:
 
-depois digite "yarn" para baixar as dependencias
+- Expo + Expo Router
+- TypeScript
+- ESLint + Prettier
+- React Hook Form + Zod
+- Estrutura de pastas preparada
+- Pronto para rodar em Android e Web
 
-rode "npx expo start" para rodar o app
+---
 
-- VALIDAR
+## 🧱 Requisitos do sistema
 
-rode "npx expo-doctor" para testar todas as bibliotecas e builds do projeto e falar coisas que estão erradas
+### 📦 Dependências globais
 
-rode "yarn audit" para procurar por falhas nas bibliotecas
+| Nome            | Comando de instalação (Windows via PowerShell) |
+| --------------- | ---------------------------------------------- |
+| **Chocolatey**  | <https://chocolatey.org/install>               |
+| **Node.js 18+** | `choco install nodejs-lts`                     |
+| **Yarn**        | `npm install -g yarn`                          |
+| **Expo CLI**    | `npm install -g expo-cli`                      |
+| **Depcheck**    | `npm install -g depcheck`                      |
 
-baixe depcheck com "npm install -g depcheck"
+> Certifique-se de que o Android SDK e o emulador estejam instalados via Android Studio.
+> O projeto é compatível com **Expo SDK 52** (React Native 0.76).
 
-e rode "depcheck" para ver bibliotecas que nao estão sendo usadas ou configurações que não foram feitas
+---
 
-rode "yarn lint" para procurar por erros/funcoes nao utilizadas pelo projeto
+## 🚀 Como rodar o projeto
+
+1. Instale as dependências:
+
+```bash
+yarn
+```
+
+2. Rode o app:
+
+```bash
+npx expo start
+```
+
+---
+
+## ✅ Validações e verificações
+
+### Checar estrutura e dependências do projeto:
+
+```bash
+npx expo-doctor
+```
+
+> ⚠️ Um aviso sobre "app config fields not synced in a non-CNG project" pode aparecer devido à pasta `android/`.
+> **Esse aviso pode ser ignorado com segurança**, pois o projeto é sincronizado com `expo prebuild`.
+
+---
+
+### Verificar vulnerabilidades de segurança:
+
+```bash
+yarn audit
+```
+
+---
+
+### Verificar dependências não utilizadas:
+
+```bash
+depcheck
+```
+
+---
+
+### Verificar erros de código, imports não usados, problemas de estilo:
+
+```bash
+yarn lint
+```
+
+---
+
+> Adicione no seu `package.json` se ainda não tiver:
+
+```json
+"scripts": {
+  "typecheck": "tsc --noEmit"
+}
+```
+
+---
+
+## 🛠️ Build Android
+
+Como o projeto mantém a pasta `android/`, você pode gerar builds locais ou de produção.
+
+Para aplicar as configurações do `app.json` ao projeto nativo:
+
+```bash
+npx expo prebuild
+```
+
+Para rodar no emulador:
+
+```bash
+npx expo run:android
+```
+
+Para builds de produção com EAS:
+
+```bash
+npx eas build -p android
+```
+
+---
+
+## 📑 Scripts úteis (recomendo adicionar no `package.json`)
+
+```json
+"scripts": {
+  "check": "yarn lint && yarn audit && depcheck && yarn typecheck",
+  "typecheck": "tsc --noEmit"
+}
+```
+
+E rode com:
+
+```bash
+yarn check
+```
+
+---
+
+## 🧠 Observações finais
+
+- Este template é ideal para **projetos pessoais, acadêmicos ou protótipos profissionais**.
+- Evite atualizar as dependências `expo`, `react`, `react-native` manualmente — elas são gerenciadas pelo SDK.
+- Se quiser builds 100% nativos no futuro, já está pronto com as pastas `android/` e `ios/`.
+
+---
+
+Template criado por [Luan Silveira Macea](mailto:luan.macea@arista.com.br) • Arista Digital
