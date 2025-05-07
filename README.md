@@ -83,14 +83,6 @@ yarn lint
 
 ---
 
-> Adicione no seu `package.json` se ainda não tiver:
-
-```json
-"scripts": {
-  "typecheck": "tsc --noEmit"
-}
-```
-
 ---
 
 ## 🛠️ Build Android
@@ -117,4 +109,4 @@ npx eas build -p android
 
 ---
 
-Template criado por [Luan Silveira Macea](mailto:luanmacea@gmail.com)
+Template criado por Luan Silveira Macea || email: [luanmacea@gmail.com](mailto:luanmacea@gmail.com)
