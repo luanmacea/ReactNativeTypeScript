@@ -117,29 +117,4 @@ npx eas build -p android
 
 ---
 
-## 📑 Scripts úteis (recomendo adicionar no `package.json`)
-
-```json
-"scripts": {
-  "check": "yarn lint && yarn audit && depcheck && yarn typecheck",
-  "typecheck": "tsc --noEmit"
-}
-```
-
-E rode com:
-
-```bash
-yarn check
-```
-
----
-
-## 🧠 Observações finais
-
-- Este template é ideal para **projetos pessoais, acadêmicos ou protótipos profissionais**.
-- Evite atualizar as dependências `expo`, `react`, `react-native` manualmente — elas são gerenciadas pelo SDK.
-- Se quiser builds 100% nativos no futuro, já está pronto com as pastas `android/` e `ios/`.
-
----
-
-Template criado por [Luan Silveira Macea](mailto:luan.macea@arista.com.br) • Arista Digital
+Template criado por [Luan Silveira Macea](mailto:luanmacea@gmail.com)
