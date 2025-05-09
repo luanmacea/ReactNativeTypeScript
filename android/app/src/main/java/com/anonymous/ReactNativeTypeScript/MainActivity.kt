@@ -1,4 +1,4 @@
-package com.anonymous.ReactNativeTypeScript
+package com.anonymous.reactnativetypescript
 
 import android.os.Build
 import android.os.Bundle

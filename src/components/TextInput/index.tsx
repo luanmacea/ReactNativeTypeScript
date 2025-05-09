@@ -75,9 +75,7 @@ export const TextInput: React.FC<FormTextInputProps> = ({
       />
       {error && (
         <View style={{ marginTop: 4 }}>
-          <Text
-            style={{ color: theme.colors?.error || 'red', fontSize: 12 }}
-          >
+          <Text style={{ color: theme.colors?.error || 'red', fontSize: 12 }}>
             {error.message}
           </Text>
         </View>
