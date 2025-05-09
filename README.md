@@ -95,16 +95,10 @@ Para aplicar as configurações do `app.json` ao projeto nativo:
 npx expo prebuild
 ```
 
-Para rodar no emulador:
+Para rodar no emulador simulando um celular android de verdade:
 
 ```bash
-npx expo run:android
-```
-
-Para builds de produção com EAS:
-
-```bash
-npx eas build -p android
+yarn dev
 ```
 
 ---
