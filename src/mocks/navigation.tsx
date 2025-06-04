@@ -18,6 +18,7 @@ export const navigationScreensOptions: Record<string, ScreenOption> = {
     title: 'Home',
     headerShown: true,
     headerBackVisible: false,
+    showInFooter: true,
     icon: <Feather name="home" size={24} color="grey" />,
   },
 }

@@ -2,6 +2,7 @@ export interface ScreenOption {
   title: string
   headerShown: boolean
   headerBackVisible: boolean
+  showInFooter?: boolean
   icon?: React.ReactNode
 }
 
