@@ -23,7 +23,7 @@ export const defaultTheme = createTheme({
     greyOutline: '#B6B6B6FF', // cor da borda dos componentes
     grey0: '#333333',
     grey1: '#FFFFFF', // texto dos componentes
-    grey2: '#787878', // texto das labels
+    grey2: '#969696', // texto das labels
     grey3: '#292929', // fundo componentes
     white: '#F5F5F5',
     black: '#2A2B2A',

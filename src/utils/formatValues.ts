@@ -5,6 +5,18 @@ export function formatDateToBR(dateString: string): string {
   const [year, month, day] = dateString.split('-')
   return `${day}/${month}/${year}`
 }
+export function formatIsoDateToBrazilian(isoDate: string): string {
+  if (!isoDate) return ''
+
+  const date = new Date(isoDate)
+
+  const day = String(date.getDate()).padStart(2, '0')
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const year = date.getFullYear()
+
+  return `${day}/${month}/${year}`
+}
+
 export function formatDateTimeToBR(dateTimeString: string): string {
   const [datePart, timePart] = dateTimeString.split('T')
   const formattedDate = formatDateToBR(datePart)

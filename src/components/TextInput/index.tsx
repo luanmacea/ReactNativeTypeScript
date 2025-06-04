@@ -17,6 +17,7 @@ interface FormTextInputProps {
   iconLeft?: ComponentProps<typeof Feather>['name']
   password?: boolean
   placeholder?: string
+  disabled?: boolean
 }
 
 export const TextInput: React.FC<FormTextInputProps> = ({
@@ -25,6 +26,7 @@ export const TextInput: React.FC<FormTextInputProps> = ({
   iconLeft,
   password = false,
   placeholder,
+  disabled = false,
 }) => {
   const theme = useAppSelector(selectThemeState)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -40,7 +42,6 @@ export const TextInput: React.FC<FormTextInputProps> = ({
   })
 
   const styles = createStyles(theme)
-  console.log('error', error)
 
   return (
     <View style={styles.container}>
@@ -49,6 +50,7 @@ export const TextInput: React.FC<FormTextInputProps> = ({
         style={[
           styles.inputWrapper,
           error && { borderColor: theme.colors?.error },
+          disabled && { backgroundColor: 'transparent' },
         ]}
       >
         {iconLeft && (
@@ -60,7 +62,11 @@ export const TextInput: React.FC<FormTextInputProps> = ({
           />
         )}
         <RNTextInput
-          style={[styles.textInput, { flex: 1 }]}
+          style={[
+            styles.textInput,
+            { flex: 1 },
+            disabled && { color: theme.colors?.grey2 },
+          ]}
           placeholder={placeholder}
           placeholderTextColor={theme.colors?.grey2}
           secureTextEntry={password && !isPasswordVisible}
@@ -69,8 +75,9 @@ export const TextInput: React.FC<FormTextInputProps> = ({
           value={value}
           onChangeText={onChange}
           onBlur={onBlur}
+          editable={!disabled}
         />
-        {password && (
+        {password && !disabled && (
           <TouchableOpacity
             onPress={() => setIsPasswordVisible((prev) => !prev)}
           >
@@ -80,6 +87,14 @@ export const TextInput: React.FC<FormTextInputProps> = ({
               color={theme.colors?.grey2}
             />
           </TouchableOpacity>
+        )}
+        {disabled && (
+          <Feather
+            name="lock"
+            size={20}
+            color={theme.colors?.grey2}
+            style={{ marginLeft: 8 }}
+          />
         )}
       </View>
       {error && <Text style={styles.errorText}>{error.message}</Text>}
@@ -101,9 +116,9 @@ const createStyles = (theme: any) =>
     inputWrapper: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: theme.colors?.grey3,
       borderRadius: 6,
       borderWidth: 1,
+      backgroundColor: theme.colors?.grey3,
       borderColor: theme.colors?.greyOutline,
       paddingHorizontal: 12,
       height: 48,

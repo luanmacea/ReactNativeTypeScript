@@ -1,20 +1,41 @@
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+
+type AlertType = 'success' | 'error' | 'warning'
 
 interface AlertProps {
   title: string
   message: string
   open: boolean
   onClose: () => void
+  type?: AlertType
 }
 
-export default function Alert({ title, message, open, onClose }: AlertProps) {
+const ICONS: Record<
+  AlertType,
+  { name: keyof typeof MaterialIcons.glyphMap; color: string }
+> = {
+  success: { name: 'check-circle', color: 'green' },
+  error: { name: 'error', color: 'red' },
+  warning: { name: 'warning', color: 'orange' },
+}
+
+export default function Alert({
+  title,
+  message,
+  open,
+  onClose,
+  type = 'success',
+}: AlertProps) {
+  const icon = ICONS[type]
+
   return (
     <Modal
       transparent
       visible={open}
       animationType="fade"
-      onRequestClose={onClose} // Fecha ao pressionar "voltar" no Android
+      onRequestClose={onClose}
     >
       <TouchableOpacity
         style={styles.overlay}
@@ -23,6 +44,12 @@ export default function Alert({ title, message, open, onClose }: AlertProps) {
       >
         <View style={styles.container}>
           <View style={styles.header}>
+            <MaterialIcons
+              name={icon.name}
+              size={35}
+              color={icon.color}
+              style={{ marginRight: 5 }}
+            />
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={onClose}>
               <AntDesign name="close" size={24} color="black" />
@@ -50,6 +77,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
   },
+  iconContainer: {
+    alignItems: 'center',
+    marginBottom: 10,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -60,6 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'left',
+    flex: 1,
   },
   message: {
     marginVertical: 10,

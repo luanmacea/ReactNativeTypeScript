@@ -34,11 +34,12 @@ export default function Text({
       color: theme.colors?.grey2,
     },
   }
+  const baseStyle = variantStyle[variant]
+  const mergedStyle = [
+    baseStyle,
+    !baseStyle.color && { color: theme.colors?.grey1 },
+    style,
+  ]
 
-  return (
-    <RNEText
-      {...props}
-      style={[variantStyle[variant], { color: theme.colors?.grey1 }, style]}
-    />
-  )
+  return <RNEText {...props} style={mergedStyle} />
 }
