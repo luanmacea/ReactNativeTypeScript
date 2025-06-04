@@ -57,10 +57,14 @@ export default function AppLayout() {
             </View>
             <View
               style={{
-                flex: 1,
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'row',
-                justifyContent: 'center',
               }}
             >
               {options.icon}
@@ -68,13 +72,12 @@ export default function AppLayout() {
                 {options.title}
               </Text>
             </View>
-            <View style={{ width: 36 }} /> {/* espaço reservado à direita */}
+            <View />
           </View>
         )}
 
         <Slot />
 
-        {/* Footer Navigation */}
         <View
           style={{
             flexDirection: 'row',
