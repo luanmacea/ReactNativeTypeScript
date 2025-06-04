@@ -31,18 +31,14 @@ export default function Text({
     },
     caption: {
       fontSize: 12,
-      color: '#888',
+      color: theme.colors?.grey2,
     },
   }
 
   return (
     <RNEText
       {...props}
-      style={[
-        variantStyle[variant],
-        theme.mode === 'dark' ? { color: theme.colors?.white } : {},
-        style,
-      ]}
+      style={[variantStyle[variant], { color: theme.colors?.grey1 }, style]}
     />
   )
 }
