@@ -9,24 +9,30 @@ import {
 import { useFormContext, useController } from 'react-hook-form'
 import { useAppSelector } from '~/redux/hook'
 import { selectThemeState } from '~/redux/features/theme/themeSelectors'
-import { Feather } from '@expo/vector-icons'
+import { Feather, FontAwesome } from '@expo/vector-icons'
+import FeatherIcon from '../FeatherIcon'
+import FontAwesomeIcon from '../FontAwesomeIcon'
 
 interface FormTextInputProps {
   name: string
   label?: string
   iconLeft?: ComponentProps<typeof Feather>['name']
+  iconLeftFontAwesome?: ComponentProps<typeof FontAwesome>['name']
   password?: boolean
   placeholder?: string
   disabled?: boolean
+  numeric?: boolean
 }
 
 export const TextInput: React.FC<FormTextInputProps> = ({
   name,
   label,
   iconLeft,
+  iconLeftFontAwesome,
   password = false,
   placeholder,
   disabled = false,
+  numeric = false,
 }) => {
   const theme = useAppSelector(selectThemeState)
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
@@ -40,7 +46,7 @@ export const TextInput: React.FC<FormTextInputProps> = ({
     control,
     defaultValue: '',
   })
-
+  const showLeftIcon = iconLeft || iconLeftFontAwesome
   const styles = createStyles(theme)
 
   return (
@@ -53,14 +59,20 @@ export const TextInput: React.FC<FormTextInputProps> = ({
           disabled && { backgroundColor: 'transparent' },
         ]}
       >
-        {iconLeft && (
-          <Feather
-            name={iconLeft}
-            size={20}
-            color={theme.colors?.grey2}
-            style={{ marginRight: 8 }}
-          />
+        {showLeftIcon && (
+          <>
+            {iconLeft && (
+              <FeatherIcon icon={iconLeft} style={{ marginRight: 8 }} />
+            )}
+            {iconLeftFontAwesome && (
+              <FontAwesomeIcon
+                icon={iconLeftFontAwesome}
+                style={{ marginRight: 8 }}
+              />
+            )}
+          </>
         )}
+
         <RNTextInput
           style={[
             styles.textInput,
@@ -76,26 +88,17 @@ export const TextInput: React.FC<FormTextInputProps> = ({
           onChangeText={onChange}
           onBlur={onBlur}
           editable={!disabled}
+          keyboardType={numeric ? 'numeric' : 'default'}
+          inputMode={numeric ? 'numeric' : 'text'}
         />
         {password && !disabled && (
           <TouchableOpacity
             onPress={() => setIsPasswordVisible((prev) => !prev)}
           >
-            <Feather
-              name={isPasswordVisible ? 'eye-off' : 'eye'}
-              size={20}
-              color={theme.colors?.grey2}
-            />
+            <FeatherIcon icon={isPasswordVisible ? 'eye-off' : 'eye'} />
           </TouchableOpacity>
         )}
-        {disabled && (
-          <Feather
-            name="lock"
-            size={20}
-            color={theme.colors?.grey2}
-            style={{ marginLeft: 8 }}
-          />
-        )}
+        {disabled && <FeatherIcon icon="lock" style={{ marginLeft: 8 }} />}
       </View>
       {error && <Text style={styles.errorText}>{error.message}</Text>}
     </View>
