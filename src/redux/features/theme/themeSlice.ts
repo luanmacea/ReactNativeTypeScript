@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { defaultTheme } from '~/constants/theme'
+import { defaultTheme } from '@/constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface ThemeState {

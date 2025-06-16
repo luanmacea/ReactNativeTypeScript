@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { signInApi, signOutApi } from '~/redux/api/authApi'
+import { signInApi, signOutApi } from '@/redux/api/authApi'
 
 import { ISignInProps } from './types'
 import * as SecureStore from 'expo-secure-store'
-import { LocalStore } from '~/constants/environment-variables'
+import { LocalStore } from '@/constants/environment-variables'
 
 export const signIn = createAsyncThunk(
   'auth/signIn',

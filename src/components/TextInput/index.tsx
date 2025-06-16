@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { useFormContext, useController } from 'react-hook-form'
-import { useAppSelector } from '~/redux/hook'
-import { selectThemeState } from '~/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { Feather, FontAwesome } from '@expo/vector-icons'
 import FeatherIcon from '../FeatherIcon'
 import FontAwesomeIcon from '../FontAwesomeIcon'

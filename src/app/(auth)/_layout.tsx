@@ -1,12 +1,13 @@
 import { Stack, useNavigation, useRouter } from 'expo-router'
 import { ThemeProvider } from '@rneui/themed'
-import { useAppSelector } from '~/redux/hook'
-import { selectThemeState } from '~/redux/features/theme/themeSelectors'
-import { navigationScreensOptions } from '~/mocks/navigation'
+import { useAppSelector } from '@/redux/hook'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { navigationScreensOptions } from '@/mocks/navigation'
 import { usePathname } from 'expo-router'
-import { TouchableOpacity, View } from 'react-native'
-import Text from '~/components/Text'
+import { Image, TouchableOpacity, View } from 'react-native'
+import Text from '@/components/Text'
 import { Feather } from '@expo/vector-icons'
+import logo from '@/assets/logoEscuro.png'
 
 export default function AppLayout() {
   const theme = useAppSelector(selectThemeState)
@@ -18,10 +19,10 @@ export default function AppLayout() {
     <ThemeProvider theme={theme}>
       <Stack
         screenOptions={{
-          headerBackVisible: false, // desativa o botão padrão
+          headerBackVisible: false,
           headerTitle: () => {
             const router = useRouter()
-            useNavigation() // necessário para acessar o estado de navegação
+            useNavigation()
             const canGoBack = options.headerBackVisible
 
             return (
@@ -68,7 +69,21 @@ export default function AppLayout() {
                     {options.title}
                   </Text>
                 </View>
-                <View />
+
+                <View
+                  style={{
+                    paddingHorizontal: 12,
+                  }}
+                >
+                  <Image
+                    source={logo}
+                    style={{
+                      width: 100,
+                      height: 30,
+                    }}
+                    resizeMode="contain"
+                  />
+                </View>
               </View>
             )
           },

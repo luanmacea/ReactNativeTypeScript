@@ -8,8 +8,9 @@
     "module": "CommonJS",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["src/*"]
-    }
+      "@/*": ["src/*"]
+    },
+    "typeRoots": ["./src/types"]
   },
   "include": ["src", "app"],
   "exclude": ["node_modules"]

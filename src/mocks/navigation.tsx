@@ -1,4 +1,4 @@
-import { ScreenOption } from '~/types/types'
+import { ScreenOption } from '@/types/types'
 import { Feather } from '@expo/vector-icons'
 
 export const navigationScreensOptions: Record<string, ScreenOption> = {

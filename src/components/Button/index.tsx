@@ -1,6 +1,7 @@
-import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native'
-import { selectThemeState } from '~/redux/features/theme/themeSelectors'
-import { useAppSelector } from '~/redux/hook'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Text, StyleSheet, ViewStyle, TouchableOpacity } from 'react-native'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
 
 interface ButtonProps {
   title: string
@@ -12,20 +13,16 @@ export default function Button({ title, onPress, style }: ButtonProps) {
   const theme = useAppSelector(selectThemeState)
 
   const styles = StyleSheet.create({
-    button: {
-      backgroundColor: theme.colors?.secondary,
+    buttonContainer: {
+      borderRadius: 8,
+      overflow: 'hidden',
+    },
+    gradient: {
       paddingVertical: 10,
       paddingHorizontal: 20,
       borderRadius: 8,
       alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
+      justifyContent: 'center',
     },
     text: {
       color: theme.colors?.grey0,
@@ -33,9 +30,24 @@ export default function Button({ title, onPress, style }: ButtonProps) {
       fontWeight: 'bold',
     },
   })
+
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.buttonContainer, style]}
+      onPress={onPress}
+      activeOpacity={0.8}
+    >
+      <LinearGradient
+        colors={[
+          theme.colors?.primary ?? '#F7CA02',
+          theme.colors?.black ?? '#000000',
+        ]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1.4, y: 1 }}
+        style={styles.gradient}
+      >
+        <Text style={styles.text}>{title}</Text>
+      </LinearGradient>
     </TouchableOpacity>
   )
 }

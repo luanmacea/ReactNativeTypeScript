@@ -1,8 +1,8 @@
 import { Feather } from '@expo/vector-icons'
 import { ComponentProps } from 'react'
 import { ViewStyle } from 'react-native'
-import { selectThemeState } from '~/redux/features/theme/themeSelectors'
-import { useAppSelector } from '~/redux/hook'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
 
 interface FeatherIconProps {
   icon: ComponentProps<typeof Feather>['name']

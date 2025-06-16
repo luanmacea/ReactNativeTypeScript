@@ -3,9 +3,9 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { View } from 'react-native'
 import { z } from 'zod'
-import Button from '~/components/Button'
-import Container from '~/components/Container'
-import { TextInput } from '~/components/TextInput'
+import Button from '@/components/Button'
+import Container from '@/components/Container'
+import { TextInput } from '@/components/TextInput'
 
 const SignInSchema = z.object({
   email: z.string().min(1, { message: 'Campo de email é obrigatório' }),

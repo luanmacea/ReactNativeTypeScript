@@ -1,4 +1,4 @@
-import { RootState } from '~/redux/store'
+import { RootState } from '@/redux/store'
 
 export const selectAuthState = (state: RootState) => state.auth
 export const selectIsAuthenticated = (state: RootState) =>

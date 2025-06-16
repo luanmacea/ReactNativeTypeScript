@@ -10,8 +10,8 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { AntDesign, Feather } from '@expo/vector-icons'
 import { useController, useFormContext } from 'react-hook-form'
-import { selectThemeState } from '~/redux/features/theme/themeSelectors'
-import { useAppSelector } from '~/redux/hook'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
 
 interface DatePickerInputProps {
   name: string

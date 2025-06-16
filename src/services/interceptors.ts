@@ -1,8 +1,8 @@
-// import { setGlobalError } from '~/redux/features/global/globalSlice'
-// import { store } from '~/redux/store'
+// import { setGlobalError } from '@/redux/features/global/globalSlice'
+// import { store } from '@/redux/store'
 // import Cookies from 'js-cookie'
 
-// import { COOKIES } from '~/constants/environment-variables'
+// import { COOKIES } from '@/constants/environment-variables'
 
 // import api from './api'
 
