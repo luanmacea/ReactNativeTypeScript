@@ -1,8 +1,10 @@
-import { useRouter } from 'expo-router'
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { View } from 'react-native'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'expo-router'
 import { z } from 'zod'
+
 import Button from '@/components/Button'
 import Container from '@/components/Container'
 import { TextInput } from '@/components/TextInput'

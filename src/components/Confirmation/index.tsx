@@ -5,9 +5,12 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native'
+
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
+
 import Text from '../Text'
 
 interface ConfirmationProps {

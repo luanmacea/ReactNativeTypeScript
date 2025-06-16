@@ -1,5 +1,7 @@
-import { LinearGradient } from 'expo-linear-gradient'
 import { Text, StyleSheet, ViewStyle, TouchableOpacity } from 'react-native'
+
+import { LinearGradient } from 'expo-linear-gradient'
+
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 

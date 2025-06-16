@@ -1,6 +1,8 @@
-import { FontAwesome } from '@expo/vector-icons'
 import { ComponentProps } from 'react'
 import { ViewStyle } from 'react-native'
+
+import { FontAwesome } from '@expo/vector-icons'
+
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 

@@ -1,13 +1,15 @@
-import { Stack, useNavigation, useRouter } from 'expo-router'
-import { ThemeProvider } from '@rneui/themed'
-import { useAppSelector } from '@/redux/hook'
-import { selectThemeState } from '@/redux/features/theme/themeSelectors'
-import { navigationScreensOptions } from '@/mocks/navigation'
-import { usePathname } from 'expo-router'
 import { Image, TouchableOpacity, View } from 'react-native'
-import Text from '@/components/Text'
+
 import { Feather } from '@expo/vector-icons'
+import { ThemeProvider } from '@rneui/themed'
+import { usePathname } from 'expo-router'
+import { Stack, useNavigation, useRouter } from 'expo-router'
+
 import logo from '@/assets/logoEscuro.png'
+import Text from '@/components/Text'
+import { navigationScreensOptions } from '@/mocks/navigation'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
 
 export default function AppLayout() {
   const theme = useAppSelector(selectThemeState)

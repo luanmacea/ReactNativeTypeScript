@@ -1,13 +1,15 @@
-import { Slot, usePathname, useRouter } from 'expo-router'
-import { ThemeProvider } from '@rneui/themed'
-import { useAppSelector } from '@/redux/hook'
-import { selectThemeState } from '@/redux/features/theme/themeSelectors'
-import { navigationScreensOptions } from '@/mocks/navigation'
-import { TouchableOpacity, View } from 'react-native'
-import Text from '@/components/Text'
-import { Feather } from '@expo/vector-icons'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import React, { isValidElement, ReactElement } from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import { Feather } from '@expo/vector-icons'
+import { ThemeProvider } from '@rneui/themed'
+import { Slot, usePathname, useRouter } from 'expo-router'
+
+import Text from '@/components/Text'
+import { navigationScreensOptions } from '@/mocks/navigation'
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
 
 export default function AppLayout() {
   const theme = useAppSelector(selectThemeState)

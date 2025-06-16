@@ -1,5 +1,6 @@
-import { ScreenOption } from '@/types/types'
 import { Feather } from '@expo/vector-icons'
+
+import { ScreenOption } from '@/types/types'
 
 export const navigationScreensOptions: Record<string, ScreenOption> = {
   'sign-in/index': {

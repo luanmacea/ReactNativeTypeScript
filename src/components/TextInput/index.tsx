@@ -1,4 +1,5 @@
 import React, { useState, ComponentProps } from 'react'
+import { useFormContext, useController } from 'react-hook-form'
 import {
   View,
   Text,
@@ -6,10 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
-import { useFormContext, useController } from 'react-hook-form'
-import { useAppSelector } from '@/redux/hook'
-import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+
 import { Feather, FontAwesome } from '@expo/vector-icons'
+
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
+
 import FeatherIcon from '../FeatherIcon'
 import FontAwesomeIcon from '../FontAwesomeIcon'
 

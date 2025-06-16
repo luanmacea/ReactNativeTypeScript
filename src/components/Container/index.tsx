@@ -1,4 +1,5 @@
 import { StyleSheet, View, ViewStyle } from 'react-native'
+
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 

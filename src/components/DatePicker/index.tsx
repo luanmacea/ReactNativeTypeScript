@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useController, useFormContext } from 'react-hook-form'
 import {
   View,
   TouchableWithoutFeedback,
@@ -7,9 +8,10 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-import DateTimePicker from '@react-native-community/datetimepicker'
+
 import { AntDesign, Feather } from '@expo/vector-icons'
-import { useController, useFormContext } from 'react-hook-form'
+import DateTimePicker from '@react-native-community/datetimepicker'
+
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 

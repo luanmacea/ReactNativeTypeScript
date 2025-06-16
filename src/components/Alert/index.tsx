@@ -1,4 +1,5 @@
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+
 import AntDesign from '@expo/vector-icons/AntDesign'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 

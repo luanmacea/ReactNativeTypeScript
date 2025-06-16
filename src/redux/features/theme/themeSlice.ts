@@ -1,6 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { defaultTheme } from '@/constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import { defaultTheme } from '@/constants/theme'
 
 interface ThemeState {
   mode: 'light' | 'dark'

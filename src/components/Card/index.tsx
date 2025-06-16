@@ -1,7 +1,8 @@
 import React from 'react'
 import { ViewStyle, StyleSheet, View } from 'react-native'
-import { useAppSelector } from '@/redux/hook'
+
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
 
 interface CardProps {
   children: React.ReactNode
