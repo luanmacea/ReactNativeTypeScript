@@ -108,7 +108,7 @@ export const TextInput: React.FC<FormTextInputProps> = ({
 const createStyles = (theme: any) =>
   StyleSheet.create({
     container: {
-      marginBottom: 16,
+      marginBottom: 8,
       width: '100%',
     },
     label: {
