@@ -12,7 +12,6 @@ export default function Index() {
     const savedMode = await AsyncStorage.getItem(THEME_KEY)
     if (savedMode === 'light' || savedMode === 'dark') {
       dispatch(setThemeMode(savedMode))
-      console.log('ola')
     }
   }
 
