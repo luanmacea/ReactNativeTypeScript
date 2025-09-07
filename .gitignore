@@ -34,3 +34,19 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Logs
+logs
+*.log
+lerna-debug.log*
+
+# Coverage
+coverage
+*.lcov
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional caches
+.eslintcache
+.stylelintcache
