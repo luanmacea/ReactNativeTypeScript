@@ -1,4 +1,4 @@
-import React, { isValidElement, ReactElement } from 'react'
+import React, { isValidElement, ReactElement, useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -8,10 +8,12 @@ import { Slot, usePathname, useRouter } from 'expo-router'
 
 import Text from '@/components/Text'
 import { navigationScreensOptions } from '@/mocks/navigation'
+import { selectUser } from '@/redux/features/auth/authSelectors'
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 
 export default function AppLayout() {
+  const user = useAppSelector(selectUser)
   const theme = useAppSelector(selectThemeState)
   const pathname = usePathname()
   const screenName = pathname.replace(/^\//, '') + '/index'
@@ -22,6 +24,12 @@ export default function AppLayout() {
   const routes = Object.entries(navigationScreensOptions).filter(
     ([_, config]) => config.showInFooter, // eslint-disable-line
   )
+
+  useEffect(() => {
+    if (!user?.id) {
+      router.replace('/(auth)/sign-in')
+    }
+  }, [user])
 
   return (
     <ThemeProvider theme={theme}>
@@ -101,7 +109,7 @@ export default function AppLayout() {
                 style={{ alignItems: 'center', gap: 4 }}
               >
                 {isValidElement(icon) &&
-                  React.cloneElement(icon as ReactElement, {
+                  React.cloneElement(icon as ReactElement<{ color?: string }>, {
                     color: isActive
                       ? theme.colors?.primary
                       : theme.colors?.grey2,

@@ -2,7 +2,7 @@ import { createTheme } from '@rneui/themed'
 
 export const defaultTheme = createTheme({
   lightColors: {
-    primary: '#007BFF',
+    primary: '#F7CA02',
     secondary: '#6C757D',
     background: '#D6D6D6FF',
     greyOutline: '#787878', // cor da borda dos componentes
@@ -31,5 +31,5 @@ export const defaultTheme = createTheme({
     error: '#F44336',
     warning: '#FFC107',
   },
-  mode: 'dark', // or 'light'
+  mode: 'light', // or 'light'
 })

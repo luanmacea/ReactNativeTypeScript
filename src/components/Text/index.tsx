@@ -21,11 +21,11 @@ export default function Text({
 
   const variantStyle: Record<Variant, TextStyle> = {
     title: {
-      fontSize: 20,
+      fontSize: 22,
       fontWeight: 'bold',
     },
     subtitle: {
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: '600',
     },
     body: {

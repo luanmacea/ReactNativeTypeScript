@@ -137,6 +137,6 @@ const createStyles = (theme: any) =>
     errorText: {
       color: theme.colors?.error,
       fontSize: 12,
-      marginTop: 4,
+      marginTop: 2,
     },
   })

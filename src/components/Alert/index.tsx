@@ -47,9 +47,9 @@ export default function Alert({
           <View style={styles.header}>
             <MaterialIcons
               name={icon.name}
-              size={35}
+              size={30}
               color={icon.color}
-              style={{ marginRight: 5 }}
+              style={{ marginRight: 10 }}
             />
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={onClose}>

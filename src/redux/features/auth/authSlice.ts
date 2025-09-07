@@ -1,12 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { logout, signIn } from './authThunk'
-import { AuthState } from './types'
+import { IUser } from '@/types/types'
+
+import { logOut, signIn } from './authThunk'
+
+export interface AuthState {
+  isLoading: boolean
+  isAuthenticated: boolean
+  error: string | null
+  user?: IUser
+}
 
 const initialState: AuthState = {
   isLoading: false,
   isAuthenticated: false,
-  error: null,
+  error: '',
+  user: undefined,
 }
 
 export const authSlice = createSlice({
@@ -15,42 +24,55 @@ export const authSlice = createSlice({
   reducers: {
     clearAuth: (state) => {
       state.isAuthenticated = false
+      state.error = ''
+      state.isLoading = false
+    },
+    setUser: (state, action) => {
+      state.user = action.payload
     },
   },
   extraReducers: (builder) => {
     builder.addCase(signIn.pending, (state) => {
       state.isLoading = true
+      state.error = null
+      state.isAuthenticated = false
     })
-    builder.addCase(signIn.fulfilled, (state) => {
-      // const user = {
-      //   cpf: action.payload.user.cpf,
-      //   name: action.payload.user.name,
-      //   id: action.payload.user.id,
-      // }
-
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.user = {
+        id: action.payload.id,
+        name: action.payload.name,
+        cpf: action.payload.cpf,
+        email: action.payload.email,
+      }
       state.isLoading = false
       state.isAuthenticated = true
-      state.error = null
     })
     builder.addCase(signIn.rejected, (state, action) => {
       state.isLoading = false
-      state.error = action.error.message || 'Failed to sign in'
+      console.log(action.error)
+      state.error = action.error.message || 'Falha ao logar'
     })
 
-    builder.addCase(logout.pending, (state) => {
+    builder.addCase(logOut.pending, (state) => {
       state.isLoading = true
     })
-    builder.addCase(logout.fulfilled, (state) => {
+    builder.addCase(logOut.fulfilled, (state) => {
+      state.user = {
+        id: '',
+        name: '',
+        cpf: '',
+        email: '',
+      }
       state.isLoading = false
       state.isAuthenticated = false
-      state.error = null
+      state.error = ''
     })
-    builder.addCase(logout.rejected, (state, action) => {
+    builder.addCase(logOut.rejected, (state, action) => {
       state.isLoading = false
       state.error = action.error.message || 'Failed to log out'
     })
   },
 })
 
-export const { clearAuth } = authSlice.actions
+export const { clearAuth, setUser } = authSlice.actions
 export default authSlice.reducer

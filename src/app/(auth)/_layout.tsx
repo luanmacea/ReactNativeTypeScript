@@ -21,10 +21,10 @@ export default function AppLayout() {
     <ThemeProvider theme={theme}>
       <Stack
         screenOptions={{
-          headerBackVisible: false,
+          headerBackVisible: false, // desativa o botão padrão
           headerTitle: () => {
             const router = useRouter()
-            useNavigation()
+            useNavigation() // necessário para acessar o estado de navegação
             const canGoBack = options.headerBackVisible
 
             return (

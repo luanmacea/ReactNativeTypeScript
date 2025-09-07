@@ -21,5 +21,13 @@ export const navigationScreensOptions: Record<string, ScreenOption> = {
     headerBackVisible: false,
     showInFooter: true,
     icon: <Feather name="home" size={24} color="grey" />,
+    isApp: true,
+  },
+  'menu/index': {
+    title: 'Menu',
+    headerShown: false,
+    headerBackVisible: true,
+    showInFooter: true,
+    icon: <Feather name="menu" size={24} color="grey" />,
   },
 }
