@@ -1,8 +1,9 @@
-import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import AntDesign from '@expo/vector-icons/AntDesign'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
+import Modal from '@/components/Modal'
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 
@@ -39,73 +40,36 @@ export default function Alert({
   const icon = ICONS[type]
 
   return (
-    <Modal
-      transparent
-      visible={open}
-      animationType="fade"
-      onRequestClose={onClose}
-    >
-      <TouchableOpacity
-        style={[
-          styles.overlay,
-          {
-            backgroundColor:
-              theme.mode === 'dark'
-                ? 'rgba(80, 80, 80, 0.8)'
-                : 'rgba(0, 0, 0, 0.5)',
-          },
-        ]}
-        activeOpacity={1}
-        onPress={onClose}
-      >
-        <View
-          style={[
-            styles.container,
-            { backgroundColor: theme.colors?.background },
-          ]}
-        >
-          <View style={styles.header}>
-            <MaterialIcons
-              name={icon.name}
-              size={30}
-              color={icon.color}
-              style={{ marginRight: 10 }}
-            />
-            <Text style={styles.title}>{title}</Text>
-            <TouchableOpacity onPress={onClose}>
-              <AntDesign name="close" size={24} color={theme.colors?.grey1} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.message}>{message}</Text>
-        </View>
-      </TouchableOpacity>
+    <Modal open={open} onClose={onClose} showCloseIcon={false}>
+      <View style={styles.header}>
+        <MaterialIcons
+          name={icon.name}
+          size={30}
+          color={icon.color}
+          style={styles.icon}
+        />
+        <Text style={styles.title}>{title}</Text>
+        <TouchableOpacity onPress={onClose}>
+          <AntDesign name="close" size={24} color={theme.colors?.grey1} />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.message}>{message}</Text>
     </Modal>
   )
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    zIndex: 9999,
-  },
   container: {
     width: 300,
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-  },
-  iconContainer: {
-    alignItems: 'center',
-    marginBottom: 10,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  icon: {
+    marginRight: 10,
   },
   title: {
     fontSize: 22,
