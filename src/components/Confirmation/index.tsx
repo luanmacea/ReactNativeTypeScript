@@ -1,9 +1,4 @@
-import {
-  ActivityIndicator,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
@@ -12,6 +7,7 @@ import Modal from '@/components/Modal'
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 
+import Button from '../Button'
 import Text from '../Text'
 
 interface ConfirmationProps {
@@ -60,24 +56,13 @@ export default function Confirmation({
       <Text style={styles.message}>{message}</Text>
 
       <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={[styles.button, styles.cancelButton]}
-          onPress={onClose}
-          disabled={isLoading}
-        >
-          <Text style={styles.cancelText}>Cancelar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.confirmButton]}
+        <Button title="Cancelar" variant="secondary" onPress={onClose} small />
+        <Button
+          title="Confirmar"
           onPress={onConfirm}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color={theme.colors?.white || '#fff'} />
-          ) : (
-            <Text style={styles.confirmText}>Confirmar</Text>
-          )}
-        </TouchableOpacity>
+          small
+          isLoading={isLoading}
+        />
       </View>
     </Modal>
   )
@@ -112,6 +97,7 @@ const createStyles = (theme: any) =>
     buttonRow: {
       flexDirection: 'row',
       justifyContent: 'flex-end',
+      gap: 8,
       marginTop: 16,
     },
     button: {

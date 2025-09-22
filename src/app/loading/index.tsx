@@ -64,7 +64,7 @@ export default function LoadingPage() {
     <Container style={styles.container}>
       <Text variant="title">Espere um momento!</Text>
       <Text variant="subtitle">Carregando suas informações...</Text>
-      <Loading />
+      <Loading size="large" />
     </Container>
   )
 }
