@@ -122,7 +122,7 @@ export default function AppLayout() {
                       : theme.colors?.grey2,
                   }}
                 >
-                  {title}
+                  {title.split(' ')[0]}
                 </Text>
               </TouchableOpacity>
             )

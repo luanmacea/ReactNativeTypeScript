@@ -1,35 +1,52 @@
 import { createTheme } from '@rneui/themed'
 
+const lightPalette = {
+  primary: '#C99A2E',
+  secondary: '#3D4C59',
+  background: '#F5F2EA',
+  greyOutline: '#D8CCB4',
+  grey0: '#FFFFFF',
+  grey1: '#1F1F26',
+  grey2: '#6A6B76',
+  grey3: '#EFE7DA',
+  grey4: '#FFFFFF',
+  white: '#FFFFFF',
+  black: '#101014',
+  success: '#3FA471',
+  error: '#D95F5F',
+  warning: '#E0A942',
+}
+
+const darkPalette = {
+  primary: '#D1A954',
+  secondary: '#4B5563',
+  background: '#0E0E10',
+  greyOutline: '#2F2F38',
+  grey0: '#15151C',
+  grey1: '#F7F3E8',
+  grey2: '#A6A6BA',
+  grey3: '#1C1C24',
+  grey4: '#1D1D24',
+  white: '#F5F5F5',
+  black: '#050507',
+  success: '#65E0A2',
+  error: '#F27C7C',
+  warning: '#F2C572',
+}
+
+export const cardAppearance = {
+  light: {
+    gradient: ['#FFFFFF', '#F3E7D3'] as [string, string],
+    border: '#E6D7BD',
+  },
+  dark: {
+    gradient: ['#2A2A32', '#16161C'] as [string, string],
+    border: '#2F2F38',
+  },
+}
+
 export const defaultTheme = createTheme({
-  lightColors: {
-    primary: '#F7CA02',
-    secondary: '#6C757D',
-    background: '#D6D6D6FF',
-    greyOutline: '#787878', // cor da borda dos componentes
-    grey0: '#F8F9FA',
-    grey1: '#000000', // texto dos componentes
-    grey2: '#6C757D', // texto das labels
-    grey3: '#f7f7f7', // fundo componentes
-    white: '#FFFFFF',
-    black: '#000000',
-    success: '#28A745',
-    error: '#DC3545',
-    warning: '#FFC107',
-  },
-  darkColors: {
-    primary: '#FF9F1C',
-    secondary: '#FFBF69',
-    background: '#1A1A1A',
-    greyOutline: '#B6B6B6FF', // cor da borda dos componentes
-    grey0: '#333333',
-    grey1: '#FFFFFF', // texto dos componentes
-    grey2: '#969696', // texto das labels
-    grey3: '#292929', // fundo componentes
-    white: '#F5F5F5',
-    black: '#2A2B2A',
-    success: '#4CAF50',
-    error: '#F44336',
-    warning: '#FFC107',
-  },
-  mode: 'light', // or 'light'
+  lightColors: lightPalette,
+  darkColors: darkPalette,
+  mode: 'dark',
 })

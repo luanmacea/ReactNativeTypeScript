@@ -1,7 +1,12 @@
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { Modal, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 import AntDesign from '@expo/vector-icons/AntDesign'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+
+import { selectThemeState } from '@/redux/features/theme/themeSelectors'
+import { useAppSelector } from '@/redux/hook'
+
+import Text from '../Text'
 
 type AlertType = 'success' | 'error' | 'warning'
 
@@ -13,15 +18,6 @@ interface AlertProps {
   type?: AlertType
 }
 
-const ICONS: Record<
-  AlertType,
-  { name: keyof typeof MaterialIcons.glyphMap; color: string }
-> = {
-  success: { name: 'check-circle', color: 'green' },
-  error: { name: 'error', color: 'red' },
-  warning: { name: 'warning', color: 'orange' },
-}
-
 export default function Alert({
   title,
   message,
@@ -29,6 +25,17 @@ export default function Alert({
   onClose,
   type = 'success',
 }: AlertProps) {
+  const theme = useAppSelector(selectThemeState)
+
+  const ICONS: Record<
+    AlertType,
+    { name: keyof typeof MaterialIcons.glyphMap; color: string }
+  > = {
+    success: { name: 'check-circle', color: theme?.colors?.success || 'green' },
+    error: { name: 'error', color: theme?.colors?.error || 'red' },
+    warning: { name: 'warning', color: theme?.colors?.warning || 'yellow' },
+  }
+
   const icon = ICONS[type]
 
   return (
@@ -39,11 +46,24 @@ export default function Alert({
       onRequestClose={onClose}
     >
       <TouchableOpacity
-        style={styles.overlay}
+        style={[
+          styles.overlay,
+          {
+            backgroundColor:
+              theme.mode === 'dark'
+                ? 'rgba(80, 80, 80, 0.8)'
+                : 'rgba(0, 0, 0, 0.5)',
+          },
+        ]}
         activeOpacity={1}
         onPress={onClose}
       >
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            { backgroundColor: theme.colors?.background },
+          ]}
+        >
           <View style={styles.header}>
             <MaterialIcons
               name={icon.name}
@@ -53,7 +73,7 @@ export default function Alert({
             />
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={onClose}>
-              <AntDesign name="close" size={24} color="black" />
+              <AntDesign name="close" size={24} color={theme.colors?.grey1} />
             </TouchableOpacity>
           </View>
           <Text style={styles.message}>{message}</Text>
@@ -68,13 +88,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+
     zIndex: 9999,
   },
   container: {
     width: 300,
     padding: 20,
-    backgroundColor: 'white',
     borderRadius: 10,
     elevation: 5,
   },

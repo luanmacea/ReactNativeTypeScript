@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Redirect } from 'expo-router'
 import * as SecureStore from 'expo-secure-store'
 
+import Container from '@/components/Container'
 import { Loading } from '@/components/Loading'
+import Text from '@/components/Text'
 import { LocalStore } from '@/constants/environment-variables'
 import { clearAuth, setUser } from '@/redux/features/auth/authSlice'
 import { setThemeMode, THEME_KEY } from '@/redux/features/theme/themeSlice'
@@ -59,12 +61,11 @@ export default function LoadingPage() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.icon}>👍</Text>
-      <Text style={styles.title}>Bem vindo!</Text>
-      <Text style={styles.subtitle}>Carregando suas informações...</Text>
+    <Container style={styles.container}>
+      <Text variant="title">Espere um momento!</Text>
+      <Text variant="subtitle">Carregando suas informações...</Text>
       <Loading />
-    </View>
+    </Container>
   )
 }
 
@@ -73,21 +74,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingHorizontal: 24,
+    gap: 16,
   },
   icon: {
     fontSize: 64,
-    marginBottom: 24,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
     textAlign: 'center',
-    marginBottom: 16,
   },
 })

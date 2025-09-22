@@ -5,7 +5,7 @@ const { version } = packageJson
 const uri: { [key: string]: string } = {
   development: 'http://localhost:8081',
   production: 'http://localhost:8081',
-  test: 'http://localhost:8081',
+  test: 'http://10.0.2.2:3000', // api para utilizar o json-server
 }
 
 const NODE_ENV = process.env.NODE_ENV

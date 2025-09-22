@@ -14,6 +14,7 @@ interface ISignUpProps {
   cpf: string
   email: string
   password: string
+  avatarUrl?: string
 }
 
 interface IChangePasswordProps {
@@ -30,6 +31,7 @@ export const signIn = createAsyncThunk(
           ...data,
         },
       })
+
       if (response.data[0]?.id) {
         const user = response.data[0]
         await SecureStore.setItemAsync(
@@ -38,31 +40,46 @@ export const signIn = createAsyncThunk(
         )
         return response.data
       }
-      return rejectWithValue('CPF ou senha incorretos')
+
+      return rejectWithValue('CPF ou senha incorretos.')
     } catch (error) {
       console.error('Erro ao fazer login:', error)
-      throw new Error('Erro ao fazer login')
+      return rejectWithValue('Erro ao fazer login.')
     }
   },
 )
 
 export const signUp = createAsyncThunk(
   'auth/signUp',
-  async (data: ISignUpProps) => {
+  async (data: ISignUpProps, { rejectWithValue }) => {
     try {
+      const { cpf } = data
+
+      const existingUsersResponse = await api.get('/users', {
+        params: { cpf },
+      })
+      const existingUsers = existingUsersResponse.data
+
+      if (existingUsers.length > 0) {
+        return rejectWithValue('Este CPF ja esta cadastrado.')
+      }
+
+      const avatarUrl = data.avatarUrl?.trim()
+
       const newUser = {
         name: data.name,
-        cpf: data.cpf,
+        cpf,
         email: data.email,
         password: data.password,
+        avatarUrl: avatarUrl && avatarUrl.length > 0 ? avatarUrl : undefined,
       }
       const response = await api.post('/users', newUser)
       const user = response.data
       await SecureStore.setItemAsync(LocalStore.USER_DATA, JSON.stringify(user))
       return response.data
     } catch (error) {
-      console.error('Erro ao cadastrar o usuário:', error)
-      throw new Error('Erro ao cadastrar o usuário')
+      console.error('Erro ao cadastrar o usuario:', error)
+      return rejectWithValue('Erro ao cadastrar o usuario.')
     }
   },
 )
@@ -70,6 +87,35 @@ export const signUp = createAsyncThunk(
 export const logOut = createAsyncThunk('auth/logOut', async () => {
   await SecureStore.deleteItemAsync(LocalStore.USER_DATA)
 })
+
+export const verifyCpf = createAsyncThunk(
+  'auth/verifyCpf',
+  async ({ cpf }: { cpf: string }, { rejectWithValue }) => {
+    try {
+      const response = await api.get('/users', {
+        params: { cpf },
+      })
+      const users = response.data
+
+      if (!Array.isArray(users) || users.length === 0) {
+        return rejectWithValue('CPF nao encontrado.')
+      }
+
+      const user = users[0]
+
+      return {
+        id: user.id,
+        name: user.name,
+        cpf: user.cpf,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+      }
+    } catch (error) {
+      console.error('Erro ao verificar CPF:', error)
+      return rejectWithValue('Erro ao verificar CPF.')
+    }
+  },
+)
 
 export const changePassword = createAsyncThunk(
   'auth/changePassword',
@@ -89,12 +135,13 @@ export const changePassword = createAsyncThunk(
       const updateResponse = await api.patch(`/users/${user.id}`, {
         password: newPassword,
       })
-      await SecureStore.setItemAsync(LocalStore.USER_DATA, JSON.stringify(user))
+      const updatedUser = { ...user, ...updateResponse.data }
+      await SecureStore.setItemAsync(
+        LocalStore.USER_DATA,
+        JSON.stringify(updatedUser),
+      )
 
-      return {
-        message: 'Senha alterada com sucesso.',
-        user: updateResponse.data,
-      }
+      return updatedUser
     } catch (error: any) {
       const message =
         error?.response?.data?.message || 'Erro ao alterar a senha.'
