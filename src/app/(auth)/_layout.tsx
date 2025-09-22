@@ -83,7 +83,7 @@ export default function AppLayout() {
           },
           headerShown: options.headerShown ?? true,
           headerStyle: {
-            backgroundColor: theme.colors?.grey0,
+            backgroundColor: theme.colors?.background,
           },
         }}
       />
