@@ -1,13 +1,14 @@
 import {
-  Modal,
-  View,
-  TouchableOpacity,
-  StyleSheet,
   ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native'
 
+import { AntDesign } from '@expo/vector-icons'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
+import Modal from '@/components/Modal'
 import { selectThemeState } from '@/redux/features/theme/themeSelectors'
 import { useAppSelector } from '@/redux/hook'
 
@@ -31,68 +32,65 @@ export default function Confirmation({
   isLoading = false,
 }: ConfirmationProps) {
   const theme = useAppSelector(selectThemeState)
-
   const styles = createStyles(theme)
-  return (
-    <Modal
-      transparent
-      visible={open}
-      animationType="fade"
-      onRequestClose={onClose}
-    >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
-      >
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <MaterialIcons
-              name="help-outline"
-              size={30}
-              color="orange"
-              style={{ marginRight: 5 }}
-            />
-            <Text variant="title">{title}</Text>
-          </View>
-          <Text style={styles.message}>{message}</Text>
 
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={[styles.button, styles.cancelButton]}
-              onPress={onClose}
-              disabled={isLoading}
-            >
-              <Text style={styles.cancelText}>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.confirmButton]}
-              onPress={onConfirm}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={styles.confirmText}>Confirmar</Text>
-              )}
-            </TouchableOpacity>
-          </View>
+  return (
+    <Modal open={open} onClose={onClose} showCloseIcon={false}>
+      <View style={styles.header}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            maxWidth: '80%',
+          }}
+        >
+          <MaterialIcons
+            name="help-outline"
+            size={30}
+            color={theme.colors?.warning || 'orange'}
+            style={styles.icon}
+          />
+          <Text variant="title">{title}</Text>
         </View>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={onClose}>
+          <AntDesign name="close" size={24} color={theme.colors?.grey1} />
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.message}>{message}</Text>
+
+      <View style={styles.buttonRow}>
+        <TouchableOpacity
+          style={[styles.button, styles.cancelButton]}
+          onPress={onClose}
+          disabled={isLoading}
+        >
+          <Text style={styles.cancelText}>Cancelar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.button, styles.confirmButton]}
+          onPress={onConfirm}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator color={theme.colors?.white || '#fff'} />
+          ) : (
+            <Text style={styles.confirmText}>Confirmar</Text>
+          )}
+        </TouchableOpacity>
+      </View>
     </Modal>
   )
 }
+
 const createStyles = (theme: any) =>
   StyleSheet.create({
     overlay: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: 'transparent',
     },
     container: {
       width: 300,
-      padding: 20,
+      padding: 24,
       backgroundColor: theme.colors?.grey3,
       borderRadius: 10,
       elevation: 5,
@@ -100,7 +98,11 @@ const createStyles = (theme: any) =>
     header: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 10,
+      justifyContent: 'space-between',
+      marginBottom: 16,
+    },
+    icon: {
+      marginRight: 8,
     },
     message: {
       marginVertical: 10,
@@ -110,7 +112,7 @@ const createStyles = (theme: any) =>
     buttonRow: {
       flexDirection: 'row',
       justifyContent: 'flex-end',
-      marginTop: 10,
+      marginTop: 16,
     },
     button: {
       paddingVertical: 10,
@@ -145,7 +147,7 @@ const createStyles = (theme: any) =>
       fontWeight: 'bold',
     },
     confirmText: {
-      color: '#505050',
+      color: theme.colors?.white || '#fff',
       fontWeight: 'bold',
     },
   })
