@@ -1,134 +1,55 @@
-import React, { isValidElement, ReactElement, useEffect } from 'react'
-import { TouchableOpacity, View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
 import { Feather } from '@expo/vector-icons'
-import { ThemeProvider } from '@rneui/themed'
-import { Slot, usePathname, useRouter } from 'expo-router'
+import { Tabs } from 'expo-router'
 
-import Text from '@/components/Text'
-import { navigationScreensOptions } from '@/mocks/navigation'
-import { selectUser } from '@/redux/features/auth/authSelectors'
-import { selectThemeState } from '@/redux/features/theme/themeSelectors'
-import { useAppSelector } from '@/redux/hook'
+import { useTheme } from '@/theme/provider'
 
+// Header e tab bar nativos do expo-router. Título/ícone de cada tela são
+// declarados aqui, na própria navegação — não existe registro central.
 export default function AppLayout() {
-  const user = useAppSelector(selectUser)
-  const theme = useAppSelector(selectThemeState)
-  const pathname = usePathname()
-  const screenName = pathname.replace(/^\//, '') + '/index'
-  const options = navigationScreensOptions[screenName] || {}
-  const router = useRouter()
-  const insets = useSafeAreaInsets()
-
-  const routes = Object.entries(navigationScreensOptions).filter(
-    ([_, config]) => config.showInFooter, // eslint-disable-line
-  )
-
-  useEffect(() => {
-    if (!user?.id) {
-      router.replace('/(auth)/sign-in')
-    }
-  }, [user])
+  const theme = useTheme()
 
   return (
-    <ThemeProvider theme={theme}>
-      <View style={{ flex: 1 }}>
-        {options.headerShown !== false && (
-          <View
-            style={{
-              paddingTop: insets.top + 8,
-              paddingBottom: 8,
-              paddingHorizontal: 16,
-              backgroundColor: theme.colors?.grey0,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                opacity: options.headerBackVisible ? 1 : 0,
-              }}
-            >
-              <TouchableOpacity
-                disabled={!options.headerBackVisible}
-                onPress={() => router.back()}
-                style={{ paddingHorizontal: 12 }}
-              >
-                <Feather
-                  name="arrow-left"
-                  size={24}
-                  color={theme.colors?.grey1 || 'white'}
-                />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}
-            >
-              {options.icon}
-              <Text style={{ marginLeft: 12, fontWeight: 'bold' }}>
-                {options.title}
-              </Text>
-            </View>
-            <View />
-          </View>
-        )}
-
-        <Slot />
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            paddingBottom: insets.bottom,
-            paddingTop: 8,
-            borderTopWidth: 1,
-            borderColor: theme.colors?.grey2,
-            backgroundColor: theme.colors?.grey0,
-          }}
-        >
-          {routes.map(([route, { icon, title }]) => {
-            const isActive = pathname.includes(route.replace('/index', ''))
-            return (
-              <TouchableOpacity
-                key={route}
-                onPress={() => router.push('/' + route.replace('/index', ''))}
-                style={{ alignItems: 'center', gap: 4 }}
-              >
-                {isValidElement(icon) &&
-                  React.cloneElement(icon as ReactElement<{ color?: string }>, {
-                    color: isActive
-                      ? theme.colors?.primary
-                      : theme.colors?.grey2,
-                  })}
-                <Text
-                  style={{
-                    fontSize: 12,
-                    color: isActive
-                      ? theme.colors?.primary
-                      : theme.colors?.grey2,
-                  }}
-                >
-                  {title.split(' ')[0]}
-                </Text>
-              </TouchableOpacity>
-            )
-          })}
-        </View>
-      </View>
-    </ThemeProvider>
+    <Tabs
+      screenOptions={{
+        headerStyle: { backgroundColor: theme.colors.surfaceAlt },
+        headerTintColor: theme.colors.text,
+        headerTitleStyle: theme.typography.subtitle,
+        headerShadowVisible: false,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surfaceAlt,
+          borderTopColor: theme.colors.border,
+        },
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.textMuted,
+      }}
+    >
+      <Tabs.Screen
+        name="home/index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="menu/index"
+        options={{
+          title: 'Menu',
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="menu" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile/index"
+        options={{
+          title: 'Meus dados',
+          // Não aparece na tab bar; acessível via menu (router.push('/profile'))
+          href: null,
+        }}
+      />
+    </Tabs>
   )
 }

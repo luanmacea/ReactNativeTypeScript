@@ -1,10 +1,10 @@
-import Container from '@/components/Container'
-import Text from '@/components/Text'
+import Container from '@/components/ui/Container'
+import Text from '@/components/ui/Text'
 
 export default function HomePage() {
   return (
     <Container>
-      <Text>Pagina home</Text>
+      <Text>Página home</Text>
     </Container>
   )
 }

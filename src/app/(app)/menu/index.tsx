@@ -1,160 +1,77 @@
-import React, { useMemo } from 'react'
-import {
-  View,
-  Pressable,
-  StyleSheet,
-  FlatList,
-  type ListRenderItem,
-} from 'react-native'
+import { ComponentProps } from 'react'
+import { FlatList, Pressable, View, type ListRenderItem } from 'react-native'
 
 import { Feather } from '@expo/vector-icons'
-import { useRouter } from 'expo-router'
+import { useRouter, type Href } from 'expo-router'
 
-import Card from '@/components/Card'
-import Container from '@/components/Container'
-import Text from '@/components/Text'
-import { navigationScreensOptions } from '@/mocks/navigation'
-import { logOut } from '@/redux/features/auth/authThunk'
-import { selectThemeState } from '@/redux/features/theme/themeSelectors'
-import { toggleTheme } from '@/redux/features/theme/themeSlice'
-import { useAppDispatch, useAppSelector } from '@/redux/hook'
-import type { ScreenOption } from '@/types/types'
+import Card from '@/components/ui/Card'
+import Container from '@/components/ui/Container'
+import Text from '@/components/ui/Text'
+import { useSignOut } from '@/features/auth/hooks'
+import { makeStyles, useTheme, useThemeMode } from '@/theme/provider'
+
+interface MenuItem {
+  title: string
+  icon: ComponentProps<typeof Feather>['name']
+  route: Href
+}
+
+// Itens do menu declarados na própria tela — sem registro central de navegação.
+const MENU_ITEMS: MenuItem[] = [
+  { title: 'Home', icon: 'home', route: '/home' },
+  { title: 'Meus dados', icon: 'user', route: '/profile' },
+]
 
 export default function MenuPage() {
   const router = useRouter()
-  const dispatch = useAppDispatch()
-  const theme = useAppSelector(selectThemeState)
+  const theme = useTheme()
+  const styles = useStyles()
+  const signOut = useSignOut()
+  const { mode, toggleMode } = useThemeMode()
 
-  const isDark = theme.mode === 'dark'
-  const colors = theme.colors || {}
+  const isDark = mode === 'dark'
 
-  const itemBackground = useMemo(
-    () => (isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(17, 17, 24, 0.04)'),
-    [isDark],
+  const renderItem: ListRenderItem<MenuItem> = ({ item }) => (
+    <Pressable onPress={() => router.push(item.route)}>
+      <Card contentStyle={styles.menuContent}>
+        <View style={styles.iconBadge}>
+          <Feather name={item.icon} size={22} color={theme.colors.primary} />
+        </View>
+        <Text variant="subtitle">{item.title}</Text>
+      </Card>
+    </Pressable>
   )
-  const textColor = colors?.grey1 || (isDark ? '#F7F3E8' : '#1F1F26')
-  const iconTint = isDark ? '#F5E3B4' : colors?.primary || '#C99A2E'
-
-  type MenuEntry = [string, ScreenOption]
-
-  const appScreens = Object.entries(navigationScreensOptions)
-    .filter(([_, options]) => options.isApp) // eslint-disable-line
-    .map(([route, options]) => [route, options] as MenuEntry)
-
-  const handleNavigate = (route: string) => {
-    const removeIndex = route.lastIndexOf('/')
-    router.push(route.slice(0, removeIndex))
-  }
-
-  const handleLogout = () => {
-    dispatch(logOut())
-    router.replace('loading')
-  }
-
-  const handleToggleTheme = () => {
-    dispatch(toggleTheme())
-  }
-
-  const renderItem: ListRenderItem<MenuEntry> = ({
-    item: [route, options],
-  }) => {
-    const iconElement = React.isValidElement(options.icon)
-      ? React.cloneElement(
-          options.icon as React.ReactElement<{ color?: string; size?: number }>,
-          {
-            color: iconTint,
-            size: 22,
-          },
-        )
-      : null
-
-    return (
-      <Pressable onPress={() => handleNavigate(route)}>
-        <Card
-          variant="flat"
-          style={styles.menuCard}
-          contentStyle={[
-            styles.menuContent,
-            { backgroundColor: itemBackground },
-          ]}
-        >
-          <View
-            style={[
-              styles.icon,
-              {
-                backgroundColor: isDark
-                  ? 'rgba(255, 255, 255, 0.07)'
-                  : 'rgba(17, 17, 24, 0.08)',
-              },
-            ]}
-          >
-            {iconElement}
-          </View>
-          <Text style={[styles.title, { color: textColor }]}>
-            {options.title}
-          </Text>
-        </Card>
-      </Pressable>
-    )
-  }
 
   return (
     <Container>
-      <FlatList<MenuEntry>
-        data={appScreens}
-        keyExtractor={([route]) => route}
+      <FlatList<MenuItem>
+        data={MENU_ITEMS}
+        keyExtractor={(item) => item.title}
         contentContainerStyle={styles.list}
         renderItem={renderItem}
         ListFooterComponent={
           <View style={styles.footer}>
-            <Pressable onPress={() => handleLogout()}>
-              <Card
-                variant="flat"
-                style={styles.menuCard}
-                contentStyle={[
-                  styles.menuContent,
-                  { backgroundColor: itemBackground },
-                ]}
-              >
-                <View
-                  style={[
-                    styles.icon,
-                    {
-                      backgroundColor: isDark
-                        ? 'rgba(255, 255, 255, 0.07)'
-                        : 'rgba(17, 17, 24, 0.08)',
-                    },
-                  ]}
-                >
-                  <Feather name="log-out" size={22} color={iconTint} />
+            <Pressable onPress={signOut}>
+              <Card contentStyle={styles.menuContent}>
+                <View style={styles.iconBadge}>
+                  <Feather
+                    name="log-out"
+                    size={22}
+                    color={theme.colors.primary}
+                  />
                 </View>
-                <Text style={[styles.title, { color: textColor }]}>Sair</Text>
+                <Text variant="subtitle">Sair</Text>
               </Card>
             </Pressable>
 
             <View style={styles.themeRow}>
-              <Text style={[styles.footerLabel, { color: textColor }]}>
-                Modo escuro
-              </Text>
+              <Text variant="subtitle">Modo escuro</Text>
               <Pressable
-                onPress={handleToggleTheme}
-                style={[
-                  styles.themeSwitch,
-                  {
-                    backgroundColor: isDark
-                      ? colors.primary || '#C99A2E'
-                      : 'rgba(17, 17, 24, 0.08)',
-                  },
-                ]}
+                onPress={toggleMode}
+                style={[styles.themeSwitch, isDark && styles.themeSwitchOn]}
               >
                 <View
-                  style={[
-                    styles.switchThumb,
-                    isDark && {
-                      transform: [{ translateX: 20 }],
-                      backgroundColor: '#241B0D',
-                    },
-                  ]}
+                  style={[styles.switchThumb, isDark && styles.switchThumbOn]}
                 />
               </Pressable>
             </View>
@@ -165,63 +82,54 @@ export default function MenuPage() {
   )
 }
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme) => ({
   list: {
-    paddingVertical: 16,
-    paddingHorizontal: 12,
-    gap: 16,
-  },
-  menuCard: {
-    borderWidth: 0,
-    shadowOpacity: 0,
-    elevation: 0,
-    backgroundColor: 'transparent',
+    paddingVertical: theme.spacing.md,
+    gap: theme.spacing.md,
   },
   menuContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: 16,
+    gap: theme.spacing.md,
   },
-  icon: {
+  iconBadge: {
     width: 40,
     height: 40,
-    borderRadius: 12,
+    borderRadius: theme.radius.md,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: '600',
+    backgroundColor: theme.colors.background,
   },
   footer: {
-    gap: 12,
+    gap: theme.spacing.md,
   },
   themeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: 16,
-  },
-  footerLabel: {
-    fontSize: 15,
-    fontWeight: '600',
+    paddingVertical: theme.spacing.md - 2,
+    paddingHorizontal: theme.spacing.md,
+    borderRadius: theme.radius.lg,
   },
   themeSwitch: {
     width: 48,
     height: 28,
-    borderRadius: 999,
-    padding: 4,
+    borderRadius: theme.radius.full,
+    padding: theme.spacing.xs,
     justifyContent: 'center',
+    backgroundColor: theme.colors.border,
+  },
+  themeSwitchOn: {
+    backgroundColor: theme.colors.primary,
   },
   switchThumb: {
     width: 20,
     height: 20,
-    borderRadius: 10,
-    backgroundColor: '#FFFFFF',
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.colors.surfaceAlt,
   },
-})
+  switchThumbOn: {
+    transform: [{ translateX: 20 }],
+    backgroundColor: theme.colors.onPrimary,
+  },
+}))

@@ -5,13 +5,12 @@
     "noUnusedParameters": true,
     "strict": true,
     "jsx": "react-jsx",
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "types": ["react", "react-native", "expo", "expo-router"],
+    "types": ["jest"],
     "noEmit": true
   },
-  "include": ["src", "app"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

@@ -1,92 +1,26 @@
-import { useEffect } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Stack } from 'expo-router'
 
-import { Feather } from '@expo/vector-icons'
-import { ThemeProvider } from '@rneui/themed'
-import { usePathname } from 'expo-router'
-import { Stack, useNavigation, useRouter } from 'expo-router'
+import { useTheme } from '@/theme/provider'
 
-import Text from '@/components/Text'
-import { navigationScreensOptions } from '@/mocks/navigation'
-import { selectAuthState } from '@/redux/features/auth/authSelectors'
-import { selectThemeState } from '@/redux/features/theme/themeSelectors'
-import { useAppSelector } from '@/redux/hook'
+export const unstable_settings = {
+  initialRouteName: 'sign-in/index',
+}
 
-export default function AppLayout() {
-  const router = useRouter()
-  const theme = useAppSelector(selectThemeState)
-  const pathname = usePathname()
-  const screenName = pathname.replace(/^\//, '') + '/index'
-  const options = navigationScreensOptions[screenName] || {}
-  const auth = useAppSelector(selectAuthState)
-
-  useEffect(() => {
-    if (!auth.isAuthenticated) return
-    router.replace('loading')
-  }, [auth.isAuthenticated])
+export default function AuthLayout() {
+  const theme = useTheme()
 
   return (
-    <ThemeProvider theme={theme}>
-      <Stack
-        screenOptions={{
-          headerBackVisible: false, // desativa o botão padrão
-          headerTitle: () => {
-            useNavigation() // necessário para acessar o estado de navegação
-            const canGoBack = options.headerBackVisible
-
-            return (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    opacity: canGoBack ? 1 : 0,
-                  }}
-                >
-                  <TouchableOpacity
-                    disabled={!canGoBack}
-                    onPress={() => router.back()}
-                    style={{ paddingHorizontal: 12 }}
-                  >
-                    <Feather
-                      name="arrow-left"
-                      size={24}
-                      color={theme.colors?.grey1 || 'white'}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                  }}
-                >
-                  {options.icon}
-                  <Text style={{ marginLeft: 12, fontWeight: 'bold' }}>
-                    {options.title}
-                  </Text>
-                </View>
-              </View>
-            )
-          },
-          headerShown: options.headerShown ?? true,
-          headerStyle: {
-            backgroundColor: theme.colors?.background,
-          },
-        }}
-      />
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: theme.colors.background },
+        headerTintColor: theme.colors.text,
+        headerShadowVisible: false,
+        headerTitle: '',
+      }}
+    >
+      <Stack.Screen name="sign-in/index" options={{ headerShown: false }} />
+      <Stack.Screen name="sign-up/index" />
+      <Stack.Screen name="reset-password/index" />
+    </Stack>
   )
 }

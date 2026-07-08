@@ -9,6 +9,10 @@ dist/
 web-build/
 expo-env.d.ts
 
+# CNG: pastas nativas são geradas com `npx expo prebuild`, não versionadas
+/android
+/ios
+
 # Native
 *.orig.*
 *.jks
