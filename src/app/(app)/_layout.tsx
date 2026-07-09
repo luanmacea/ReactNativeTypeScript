@@ -3,18 +3,17 @@ import { Tabs } from 'expo-router'
 
 import { useTheme } from '@/theme/provider'
 
-// Header e tab bar nativos do expo-router. Título/ícone de cada tela são
-// declarados aqui, na própria navegação — não existe registro central.
+// Tab bar do expo-router. O header NATIVO fica DESLIGADO (headerShown: false):
+// cada tela desenha seu próprio cabeçalho com <ScreenHeader> dentro de um
+// <Container safeTop>. Título/ícone de cada aba são declarados aqui.
 export default function AppLayout() {
   const theme = useTheme()
 
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: theme.colors.surfaceAlt },
-        headerTintColor: theme.colors.text,
-        headerTitleStyle: theme.typography.subtitle,
-        headerShadowVisible: false,
+        headerShown: false,
+        sceneStyle: { backgroundColor: theme.colors.background },
         tabBarStyle: {
           backgroundColor: theme.colors.surfaceAlt,
           borderTopColor: theme.colors.border,
@@ -33,23 +32,29 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
+        name="items/index"
+        options={{
+          title: 'Itens',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="list" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="menu/index"
         options={{
           title: 'Menu',
-          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name="menu" size={size} color={color} />
           ),
         }}
       />
-      <Tabs.Screen
-        name="profile/index"
-        options={{
-          title: 'Meus dados',
-          // Não aparece na tab bar; acessível via menu (router.push('/profile'))
-          href: null,
-        }}
-      />
+
+      {/* Telas navegáveis que não aparecem na tab bar (href: null). */}
+      <Tabs.Screen name="profile/index" options={{ href: null }} />
+      <Tabs.Screen name="feed/index" options={{ href: null }} />
+      <Tabs.Screen name="item-detail/index" options={{ href: null }} />
+      <Tabs.Screen name="item-form/index" options={{ href: null }} />
     </Tabs>
   )
 }

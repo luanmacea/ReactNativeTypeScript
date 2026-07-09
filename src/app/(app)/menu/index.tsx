@@ -1,11 +1,12 @@
 import { ComponentProps } from 'react'
-import { FlatList, Pressable, View, type ListRenderItem } from 'react-native'
+import { Pressable, ScrollView, View } from 'react-native'
 
 import { Feather } from '@expo/vector-icons'
 import { useRouter, type Href } from 'expo-router'
 
 import Card from '@/components/ui/Card'
 import Container from '@/components/ui/Container'
+import ScreenHeader from '@/components/ui/ScreenHeader'
 import Text from '@/components/ui/Text'
 import { useSignOut } from '@/features/auth/hooks'
 import { makeStyles, useTheme, useThemeMode } from '@/theme/provider'
@@ -19,6 +20,8 @@ interface MenuItem {
 // Itens do menu declarados na própria tela — sem registro central de navegação.
 const MENU_ITEMS: MenuItem[] = [
   { title: 'Home', icon: 'home', route: '/home' },
+  { title: 'Feed', icon: 'rss', route: '/feed' },
+  { title: 'Itens', icon: 'list', route: '/items' },
   { title: 'Meus dados', icon: 'user', route: '/profile' },
 ]
 
@@ -31,95 +34,178 @@ export default function MenuPage() {
 
   const isDark = mode === 'dark'
 
-  const renderItem: ListRenderItem<MenuItem> = ({ item }) => (
-    <Pressable onPress={() => router.push(item.route)}>
-      <Card contentStyle={styles.menuContent}>
-        <View style={styles.iconBadge}>
-          <Feather name={item.icon} size={22} color={theme.colors.primary} />
-        </View>
-        <Text variant="subtitle">{item.title}</Text>
-      </Card>
-    </Pressable>
-  )
-
   return (
-    <Container>
-      <FlatList<MenuItem>
-        data={MENU_ITEMS}
-        keyExtractor={(item) => item.title}
-        contentContainerStyle={styles.list}
-        renderItem={renderItem}
-        ListFooterComponent={
-          <View style={styles.footer}>
-            <Pressable onPress={signOut}>
-              <Card contentStyle={styles.menuContent}>
-                <View style={styles.iconBadge}>
-                  <Feather
-                    name="log-out"
-                    size={22}
-                    color={theme.colors.primary}
-                  />
-                </View>
-                <Text variant="subtitle">Sair</Text>
-              </Card>
-            </Pressable>
+    <Container safeTop>
+      <ScreenHeader title="Menu" />
 
-            <View style={styles.themeRow}>
-              <Text variant="subtitle">Modo escuro</Text>
-              <Pressable
-                onPress={toggleMode}
-                style={[styles.themeSwitch, isDark && styles.themeSwitchOn]}
-              >
-                <View
-                  style={[styles.switchThumb, isDark && styles.switchThumbOn]}
-                />
-              </Pressable>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scroll}
+      >
+        {/* Cartão do usuário → abre "Meus dados". */}
+        <Pressable onPress={() => router.push('/profile')}>
+          <Card contentStyle={styles.profileCard}>
+            <View style={styles.profileAvatar}>
+              <Text style={styles.profileAvatarText}>U</Text>
             </View>
+            <View style={styles.profileText}>
+              <Text variant="subtitle">Usuário de Teste</Text>
+              <Text variant="caption">Conta ativa</Text>
+            </View>
+            <Feather
+              name="chevron-right"
+              size={18}
+              color={theme.colors.textMuted}
+            />
+          </Card>
+        </Pressable>
+
+        {/* Grupo de navegação. */}
+        <Card contentStyle={styles.group}>
+          {MENU_ITEMS.map((item, index) => (
+            <Pressable
+              key={item.title}
+              onPress={() => router.push(item.route)}
+              style={[styles.row, index > 0 && styles.rowDivider]}
+            >
+              <View style={styles.iconBadge}>
+                <Feather
+                  name={item.icon}
+                  size={18}
+                  color={theme.colors.primary}
+                />
+              </View>
+              <Text variant="body" style={styles.rowLabel}>
+                {item.title}
+              </Text>
+              <Feather
+                name="chevron-right"
+                size={16}
+                color={theme.colors.textMuted}
+              />
+            </Pressable>
+          ))}
+        </Card>
+
+        {/* Toggle de tema. */}
+        <Pressable style={styles.settingRow} onPress={toggleMode}>
+          <View style={styles.iconBadgeMuted}>
+            <Feather name="moon" size={18} color={theme.colors.text} />
           </View>
-        }
-      />
+          <Text variant="body" style={styles.rowLabel}>
+            Modo escuro
+          </Text>
+          <View style={[styles.switch, isDark && styles.switchOn]}>
+            <View
+              style={[styles.switchThumb, isDark && styles.switchThumbOn]}
+            />
+          </View>
+        </Pressable>
+
+        {/* Sair. */}
+        <Pressable style={styles.settingRow} onPress={signOut}>
+          <View style={styles.iconBadgeDanger}>
+            <Feather name="log-out" size={18} color={theme.colors.error} />
+          </View>
+          <Text variant="body" style={[styles.rowLabel, styles.danger]}>
+            Sair
+          </Text>
+        </Pressable>
+      </ScrollView>
     </Container>
   )
 }
 
 const useStyles = makeStyles((theme) => ({
-  list: {
-    paddingVertical: theme.spacing.md,
-    gap: theme.spacing.md,
+  scroll: {
+    gap: theme.spacing.md - theme.spacing.xs,
+    paddingBottom: theme.spacing.md,
   },
-  menuContent: {
+  profileCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: theme.spacing.md,
+    gap: theme.spacing.sm + theme.spacing.xs,
   },
-  iconBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: theme.radius.md,
+  profileAvatar: {
+    width: 46,
+    height: 46,
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: theme.colors.background,
   },
-  footer: {
-    gap: theme.spacing.md,
+  profileAvatarText: {
+    color: theme.colors.onPrimary,
+    fontWeight: '700',
+    fontSize: 18,
   },
-  themeRow: {
+  profileText: {
+    flex: 1,
+    gap: 1,
+  },
+  group: {
+    padding: 0,
+  },
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: theme.spacing.md - 2,
-    paddingHorizontal: theme.spacing.md,
-    borderRadius: theme.radius.lg,
+    gap: theme.spacing.sm + theme.spacing.xs,
+    padding: theme.spacing.md - theme.spacing.xs,
   },
-  themeSwitch: {
-    width: 48,
-    height: 28,
+  rowDivider: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.border,
+  },
+  rowLabel: {
+    flex: 1,
+    fontWeight: '600',
+  },
+  iconBadge: {
+    width: 34,
+    height: 34,
+    borderRadius: theme.radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.primary + '1F',
+  },
+  iconBadgeMuted: {
+    width: 34,
+    height: 34,
+    borderRadius: theme.radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.surfaceAlt,
+  },
+  iconBadgeDanger: {
+    width: 34,
+    height: 34,
+    borderRadius: theme.radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.error + '1F',
+  },
+  settingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.sm + theme.spacing.xs,
+    padding: theme.spacing.md - theme.spacing.xs,
+    borderRadius: theme.radius.lg,
+    borderWidth: 1,
+    borderColor: theme.colors.border,
+    backgroundColor: theme.colors.surface,
+  },
+  danger: {
+    color: theme.colors.error,
+  },
+  switch: {
+    width: 46,
+    height: 26,
     borderRadius: theme.radius.full,
-    padding: theme.spacing.xs,
+    padding: 3,
     justifyContent: 'center',
     backgroundColor: theme.colors.border,
   },
-  themeSwitchOn: {
+  switchOn: {
     backgroundColor: theme.colors.primary,
   },
   switchThumb: {

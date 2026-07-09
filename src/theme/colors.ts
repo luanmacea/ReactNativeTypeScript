@@ -1,7 +1,7 @@
 export type ThemeMode = 'light' | 'dark'
 
-// Gradientes são opt-in: nenhum componente usa gradiente por padrão.
-// Para ativar, preencha `gradients` na paleta e use variant="gradient" em Button/Card.
+// Gradientes são opt-in: use variant="gradient" em Button/Card, ou leia
+// theme.colors.gradients direto (ex.: o card de destaque da Home).
 export interface ThemeGradients {
   primary: [string, string]
   card: [string, string]
@@ -19,40 +19,61 @@ export interface ThemeColors {
   onPrimary: string
   border: string
   overlay: string
+  // Papéis para conteúdo sobre imagem/gradiente (capa, hero). Iguais em light e
+  // dark porque cobrem o mesmo conteúdo colorido.
+  onImage: string
+  imageScrim: string
+  imageBadge: string
   success: string
   error: string
   warning: string
   gradients?: ThemeGradients
 }
 
+// Modo claro: cinza NEUTRO suave de fundo + cards brancos (sem viés de cor).
 export const lightColors: ThemeColors = {
-  background: '#F5F2EA',
-  surface: '#EFE7DA',
-  surfaceAlt: '#FFFFFF',
-  text: '#1F1F26',
-  textMuted: '#6A6B76',
-  primary: '#C99A2E',
+  background: '#F1F1F1',
+  surface: '#FFFFFF',
+  surfaceAlt: '#F7F7F7',
+  text: '#171717',
+  textMuted: '#6C6C6C',
+  primary: '#0DA894',
   onPrimary: '#FFFFFF',
-  border: '#D8CCB4',
-  overlay: 'rgba(0, 0, 0, 0.5)',
-  success: '#3FA471',
-  error: '#D95F5F',
+  border: '#E4E4E4',
+  overlay: 'rgba(20, 20, 20, 0.45)',
+  onImage: '#FFFFFF',
+  imageScrim: 'rgba(0, 0, 0, 0.35)',
+  imageBadge: 'rgba(4, 35, 31, 0.16)',
+  success: '#2FA773',
+  error: '#E5484D',
   warning: '#E0A942',
+  gradients: {
+    primary: ['#0DA894', '#0E93A8'],
+    card: ['#0DA894', '#0E93A8'],
+  },
 }
 
+// Modo escuro: preto-cinza NEUTRO (sem azul), com superfícies em camadas.
 export const darkColors: ThemeColors = {
-  background: '#0E0E10',
-  surface: '#1C1C24',
-  surfaceAlt: '#15151C',
-  text: '#F7F3E8',
-  textMuted: '#A6A6BA',
-  primary: '#D1A954',
-  onPrimary: '#101014',
-  border: '#2F2F38',
-  overlay: 'rgba(80, 80, 80, 0.8)',
-  success: '#65E0A2',
-  error: '#F27C7C',
-  warning: '#F2C572',
+  background: '#0C0C0C',
+  surface: '#171717',
+  surfaceAlt: '#101010',
+  text: '#F5F5F5',
+  textMuted: '#9C9C9C',
+  primary: '#1FC9B6',
+  onPrimary: '#04231F',
+  border: '#292929',
+  overlay: 'rgba(0, 0, 0, 0.6)',
+  onImage: '#FFFFFF',
+  imageScrim: 'rgba(0, 0, 0, 0.35)',
+  imageBadge: 'rgba(4, 35, 31, 0.16)',
+  success: '#40C877',
+  error: '#F2686B',
+  warning: '#F2B84B',
+  gradients: {
+    primary: ['#1FC9B6', '#12A5B4'],
+    card: ['#1FC9B6', '#12A5B4'],
+  },
 }
 
 export const palettes: Record<ThemeMode, ThemeColors> = {

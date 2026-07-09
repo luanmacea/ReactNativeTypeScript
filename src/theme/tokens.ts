@@ -10,10 +10,11 @@ export const spacing = {
   xl: 32,
 } as const
 
+// Raios mais generosos que a versão original (sm 6 → 10) para um visual mais suave.
 export const radius = {
-  sm: 6,
-  md: 12,
-  lg: 16,
+  sm: 10,
+  md: 14,
+  lg: 18,
   full: 999,
 } as const
 
@@ -31,15 +32,15 @@ export const elevation = {
   card: {
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 2,
   },
   modal: {
     shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.16,
+    shadowRadius: 14,
+    elevation: 6,
   },
 } as const satisfies Record<string, ViewStyle>
