@@ -41,7 +41,12 @@ export default function Modal({
         />
         <View style={styles.content}>
           {showCloseIcon ? (
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <TouchableOpacity
+              onPress={onClose}
+              style={styles.closeButton}
+              accessibilityRole="button"
+              accessibilityLabel="Fechar"
+            >
               <AntDesign name="close" size={24} color={theme.colors.text} />
             </TouchableOpacity>
           ) : null}

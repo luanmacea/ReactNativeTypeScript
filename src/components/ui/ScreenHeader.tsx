@@ -35,6 +35,8 @@ export default function ScreenHeader({
           onPress={() => router.back()}
           hitSlop={8}
           style={styles.back}
+          accessibilityRole="button"
+          accessibilityLabel="Voltar"
         >
           <Feather name="chevron-left" size={24} color={theme.colors.text} />
         </Pressable>

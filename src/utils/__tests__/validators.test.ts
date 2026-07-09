@@ -1,4 +1,9 @@
-import { cpfSchema, isValidCPF } from '@/utils/validators'
+import {
+  cpfSchema,
+  emailSchema,
+  isValidCPF,
+  requiredPasswordSchema,
+} from '@/utils/validators'
 
 describe('isValidCPF', () => {
   it('aceita CPF válido', () => {
@@ -19,5 +24,28 @@ describe('cpfSchema', () => {
     expect(cpfSchema.safeParse('529.982.247-25').success).toBe(true)
     expect(cpfSchema.safeParse('123.456.789-00').success).toBe(false)
     expect(cpfSchema.safeParse('').success).toBe(false)
+  })
+})
+
+describe('emailSchema', () => {
+  it('aceita e-mail válido e faz trim', () => {
+    const result = emailSchema.safeParse('  teste@exemplo.com  ')
+    expect(result.success).toBe(true)
+    if (result.success) expect(result.data).toBe('teste@exemplo.com')
+  })
+
+  it('rejeita e-mail inválido e vazio', () => {
+    expect(emailSchema.safeParse('sem-arroba').success).toBe(false)
+    expect(emailSchema.safeParse('').success).toBe(false)
+  })
+})
+
+describe('requiredPasswordSchema', () => {
+  it('aceita senha não vazia', () => {
+    expect(requiredPasswordSchema.safeParse('123').success).toBe(true)
+  })
+
+  it('rejeita senha vazia', () => {
+    expect(requiredPasswordSchema.safeParse('').success).toBe(false)
   })
 })
