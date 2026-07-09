@@ -4,12 +4,15 @@ Este é um repositório **template base para projetos React Native com Expo**, i
 
 Inclui:
 
-- Expo + Expo Router
-- TypeScript
-- ESLint + Prettier
+- Expo SDK 57 + Expo Router (Stack.Protected + Tabs)
+- TypeScript (strict)
+- Design system próprio em `src/theme/` (tokens + papéis semânticos de cor)
+- TanStack Query (estado de servidor) + Zustand (estado de cliente)
 - React Hook Form + Zod
-- Estrutura de pastas preparada
-- Pronto para rodar em Android e Web
+- ESLint (flat config) + Prettier + jest-expo
+- CNG puro: pastas nativas geradas sob demanda com `expo prebuild`
+
+> Convenções e arquitetura estão documentadas no `CLAUDE.md`.
 
 ---
 
@@ -20,13 +23,11 @@ Inclui:
 | Nome            | Comando de instalação (Windows via PowerShell) |
 | --------------- | ---------------------------------------------- |
 | **Chocolatey**  | <https://chocolatey.org/install>               |
-| **Node.js 18+** | `choco install nodejs-lts`                     |
+| **Node.js 20+** | `choco install nodejs-lts`                     |
 | **Yarn**        | `npm install -g yarn`                          |
-| **Expo CLI**    | `npm install -g expo-cli`                      |
-| **Depcheck**    | `npm install -g depcheck`                      |
 
 > Certifique-se de que o Android SDK e o emulador estejam instalados via Android Studio.
-> O projeto é compatível com **Expo SDK 52** (React Native 0.76).
+> O projeto é compatível com **Expo SDK 57** (React Native 0.86).
 
 ---
 
@@ -38,15 +39,34 @@ Inclui:
 yarn
 ```
 
-2. Rode o app:
+2. Configure o ambiente (URL da API):
 
 ```bash
-npx expo start
+copy .env.example .env
 ```
+
+3. Rode o app:
+
+```bash
+yarn start        # dev server (Expo Go / dev client)
+yarn dev          # build nativa no dispositivo/emulador Android
+```
+
+> 💡 Se o Expo reclamar que o emulador demorou para iniciar, suba o emulador
+> manualmente antes (Android Studio > Device Manager, ou
+> `%LOCALAPPDATA%\Android\Sdk\emulator\emulator @<nome-do-avd>`) e rode o
+> comando de novo. Se o emulador ficar `offline` no `adb devices`, faça um
+> cold boot: `emulator @<nome-do-avd> -no-snapshot-load`.
 
 ---
 
 ## ✅ Validações e verificações
+
+Atalho para rodar tudo de uma vez:
+
+```bash
+yarn validate     # lint + typecheck + test + audit + depcheck
+```
 
 ### Checar estrutura e dependências do projeto:
 
@@ -54,18 +74,11 @@ npx expo start
 npx expo-doctor
 ```
 
-> ⚠️ Um aviso sobre "app config fields not synced in a non-CNG project" pode aparecer devido à pasta `android/`.
-> **Esse aviso pode ser ignorado com segurança**, pois o projeto é sincronizado com `expo prebuild`.
-
----
-
 ### Verificar vulnerabilidades de segurança:
 
 ```bash
 yarn audit
 ```
-
----
 
 ### Verificar dependências não utilizadas:
 
@@ -73,7 +86,7 @@ yarn audit
 depcheck
 ```
 
----
+> Falsos positivos conhecidos ficam listados em `.depcheckrc.yml`.
 
 ### Verificar erros de código, imports não usados, problemas de estilo:
 
@@ -81,25 +94,27 @@ depcheck
 yarn lint
 ```
 
----
+### Verificar tipos e rodar os smoke tests:
+
+```bash
+yarn typecheck
+yarn test
+```
 
 ---
 
 ## 🛠️ Build Android
 
-Como o projeto mantém a pasta `android/`, você pode gerar builds locais ou de produção.
-
-Para aplicar as configurações do `app.json` ao projeto nativo:
-
-```bash
-npx expo prebuild
-```
-
-Para rodar no emulador simulando um celular android de verdade:
+O projeto usa **CNG puro**: as pastas `android/` e `ios/` não são versionadas —
+são geradas a partir do `app.json` quando necessário:
 
 ```bash
-yarn dev
+npx expo prebuild --platform android   # gera a pasta nativa (opcional)
+yarn dev                               # prebuild automático + build + instala no device
 ```
+
+Qualquer configuração nativa deve ser feita via `app.json`/config plugins,
+nunca editando `android/` na mão (a pasta é descartável).
 
 ---
 

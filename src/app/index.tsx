@@ -1,7 +1,11 @@
 import { Redirect } from 'expo-router'
 
-// "/" não é uma tela: manda para a home. Se não houver sessão, o
-// Stack.Protected do root layout redireciona para (auth)/sign-in.
+import { useSessionStore } from '@/features/auth/store'
+
+// "/" não é uma tela: manda para a home ou para o login conforme a sessão.
 export default function Index() {
-  return <Redirect href="/home" />
+  const isAuthenticated = useSessionStore(
+    (state) => state.status === 'authenticated',
+  )
+  return <Redirect href={isAuthenticated ? '/home' : '/sign-in'} />
 }

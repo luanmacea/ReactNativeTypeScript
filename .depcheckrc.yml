@@ -1,0 +1,4 @@
+# Falsos positivos do depcheck:
+# - @babel/core: peer exigido pelo babel-preset-expo (babel.config.js)
+ignores:
+  - '@babel/core'
