@@ -52,6 +52,22 @@ yarn start        # dev server (Expo Go / dev client)
 yarn dev          # build nativa no dispositivo/emulador Android
 ```
 
+### 🧪 Modo de teste (sem backend)
+
+Para navegar pelo app sem uma API real (a auth é substituída por mocks):
+
+```bash
+yarn dev:test     # build nativa + modo de teste
+yarn start:test   # só o dev server em modo de teste (se o app já está instalado)
+```
+
+Login: **admin** · Senha: **123**
+
+O modo é controlado por `EXPO_PUBLIC_MOCK_API` (embutida no bundle pelo Metro):
+mudar de modo exige reiniciar o dev server — se um `yarn start` normal estiver
+aberto, feche-o antes de rodar `dev:test`. Os mocks vivem em
+`src/features/<feature>/mock.ts`.
+
 > 💡 Se o Expo reclamar que o emulador demorou para iniciar, suba o emulador
 > manualmente antes (Android Studio > Device Manager, ou
 > `%LOCALAPPDATA%\Android\Sdk\emulator\emulator @<nome-do-avd>`) e rode o

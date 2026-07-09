@@ -11,11 +11,16 @@ import Container from '@/components/ui/Container'
 import Logo from '@/components/ui/Logo'
 import Text from '@/components/ui/Text'
 import { useSignIn } from '@/features/auth/hooks'
+import { MOCK_CREDENTIALS } from '@/features/auth/mock'
+import { env } from '@/lib/env'
 import { makeStyles } from '@/theme/provider'
 import { cpfSchema, requiredPasswordSchema } from '@/utils/validators'
 
+// No modo de teste o login é "admin" (não é um CPF) — validação relaxada.
 const SignInSchema = z.object({
-  cpf: cpfSchema,
+  cpf: env.isMockApi
+    ? z.string().min(1, { message: 'Campo de login é obrigatório' })
+    : cpfSchema,
   password: requiredPasswordSchema,
 })
 
@@ -45,9 +50,9 @@ export default function SignInPage() {
         <View>
           <FormInput
             name="cpf"
-            label="Digite seu CPF"
-            placeholder="CPF"
-            numeric
+            label={env.isMockApi ? 'Digite seu login' : 'Digite seu CPF'}
+            placeholder={env.isMockApi ? 'Login' : 'CPF'}
+            numeric={!env.isMockApi}
           />
           <FormInput
             name="password"
@@ -56,6 +61,13 @@ export default function SignInPage() {
             password
           />
         </View>
+
+        {env.isMockApi && (
+          <Text variant="caption" style={styles.mockHint}>
+            Modo de teste: login "{MOCK_CREDENTIALS.login}" · senha "
+            {MOCK_CREDENTIALS.password}"
+          </Text>
+        )}
 
         <TouchableOpacity
           style={styles.forgotButton}
@@ -98,6 +110,11 @@ const useStyles = makeStyles((theme) => ({
   forgotButton: {
     alignSelf: 'flex-end',
     marginBottom: theme.spacing.md - theme.spacing.xs,
+  },
+  mockHint: {
+    textAlign: 'center',
+    marginBottom: theme.spacing.sm,
+    color: theme.colors.warning,
   },
   link: {
     color: theme.colors.primary,

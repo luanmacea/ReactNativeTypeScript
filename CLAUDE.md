@@ -52,6 +52,8 @@ Testing Library · ESLint flat config + Prettier · Yarn classic
 yarn                 # instalar dependências
 yarn start           # expo start (dev server)
 yarn dev             # expo run:android --device
+yarn dev:test        # idem, em modo de teste (API mockada, login admin/123)
+yarn start:test      # dev server em modo de teste
 yarn lint            # eslint
 yarn typecheck       # tsc --noEmit
 yarn test            # jest (smoke tests)
@@ -60,6 +62,8 @@ yarn validate        # lint + typecheck + test + audit + depcheck
 ```
 
 Config de ambiente: copie `.env.example` para `.env` (`EXPO_PUBLIC_API_URL`).
+Modo de teste: `EXPO_PUBLIC_MOCK_API=true` (via `dev:test`/`start:test`) troca a
+API pelos mocks de `features/<x>/mock.ts` — navegação completa sem backend.
 
 ### Mapa de estrutura (decisão → pasta)
 
@@ -76,9 +80,10 @@ src/
     forms/              - Cascas react-hook-form finas sobre ui/: FormInput, FormDatePicker
   features/             - 1 pasta por domínio. Padrão fixo (copie de auth/):
     auth/
-      api.ts            -   funções axios puras
+      api.ts            -   funções axios puras (delegam a mock.ts no modo de teste)
       hooks.ts          -   useQuery/useMutation da feature
       store.ts          -   Zustand (só para estado de cliente real, ex.: sessão)
+      mock.ts           -   respostas fake do modo de teste (EXPO_PUBLIC_MOCK_API)
   theme/                - ÚNICA fonte de decisão visual
     tokens.ts           -   spacing, radius, typography, elevation
     colors.ts           -   papéis semânticos (ThemeColors), light + dark, gradients opt-in
